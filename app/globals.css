@@ -378,3 +378,206 @@ tr:last-child td {
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum";
 }
+
+/* Header / mobile nav */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: white;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: border-color 0.18s ease, background-color 0.18s ease;
+}
+
+.icon-btn:hover,
+.icon-btn:focus-visible {
+  border-color: var(--color-primary);
+  background: var(--color-surface-alt);
+}
+
+@media (min-width: 768px) {
+  .mobile-menu-btn {
+    display: none;
+  }
+}
+
+.mobile-nav {
+  border-top: 1px solid var(--color-border);
+  background: white;
+}
+
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 4px;
+  font-size: 15px;
+  color: var(--color-ink);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.mobile-nav-link:last-child {
+  border-bottom: none;
+}
+
+.mobile-nav-link[data-active="true"] {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* Responsive table wrappers */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Help / tooltip hint */
+.help-hint {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.help-hint-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--color-surface-alt);
+  color: var(--color-primary);
+  border: 1px solid var(--color-border-strong);
+  font-family: var(--font-small);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: help;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.help-hint-btn:hover,
+.help-hint-btn:focus-visible {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+.help-hint-pop {
+  position: absolute;
+  top: calc(100% + 8px);
+  z-index: 50;
+  width: 260px;
+  max-width: calc(100vw - 32px);
+  background: white;
+  color: var(--color-ink);
+  border: 1px solid var(--color-border-strong);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  box-shadow: 0 12px 32px rgba(5, 14, 49, 0.16);
+  font-family: var(--font-body);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.help-hint-pop--start { left: 0; }
+.help-hint-pop--end { right: 0; }
+
+.help-hint-title {
+  font-family: var(--font-small);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.help-hint-body {
+  color: var(--color-text-muted);
+}
+
+.help-hint-body strong {
+  color: var(--color-ink);
+}
+
+/* Indicative-pricing / caveat callout */
+.caveat {
+  border: 1px dashed var(--color-border-strong);
+  background: var(--color-cream);
+  color: #6a4500;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.caveat strong {
+  color: var(--color-ink);
+}
+
+.caveat::before {
+  content: "i";
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--color-accent);
+  color: white;
+  font-family: var(--font-small);
+  font-weight: 700;
+  font-size: 11px;
+  margin-top: 1px;
+}
+
+/* Step ladder ("How to use this demo") */
+.step-card {
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  align-items: flex-start;
+}
+
+.step-card-num {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: white;
+  font-family: var(--font-small);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+/* Configurator quote preview: keep it readable on small screens */
+@media (max-width: 640px) {
+  .quote-preview .mono {
+    font-size: 12px;
+  }
+}

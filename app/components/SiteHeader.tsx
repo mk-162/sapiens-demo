@@ -1,48 +1,59 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import BrandLogo from './BrandLogo';
 
 const NAV_ITEMS = [
   { href: '/', label: 'Dashboard' },
-  { href: '/modules', label: 'Services Catalog' },
-  { href: '/cohorts', label: 'Cohort Mapping' },
-  { href: '/configurator', label: 'Configurator' },
-  { href: '/packages', label: 'Launch Packages' },
+  { href: '/modules', label: 'Catalog' },
+  { href: '/cohorts', label: 'Cohorts' },
+  { href: '/packages', label: 'Packages' },
 ];
+
+function isActiveHref(pathname: string, href: string): boolean {
+  return href === '/' ? pathname === '/' : pathname.startsWith(href);
+}
 
 export default function SiteHeader() {
   const pathname = usePathname();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const closeMobileNav = () => setMobileOpen(false);
+
+  const onConfigurator = pathname.startsWith('/configurator');
 
   return (
     <header className="border-b border-[var(--color-border)] bg-white sticky top-0 z-30 backdrop-blur supports-[backdrop-filter]:bg-white/90 shadow-[0_1px_0_rgba(5,14,49,0.04)]">
       <div className="brand-topline" />
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 py-4 flex items-center justify-between gap-8">
-        <Link href="/" className="flex items-center gap-4 group" aria-label="Sapiens Subscription Services Toolkit home">
-          <BrandLogo />
-          <div className="hidden sm:block leading-tight pl-4 border-l border-[var(--color-border)]">
-            <div className="label-small text-[var(--color-primary)] uppercase tracking-[0.16em] text-[10px] font-semibold">
-              Subscription Services Toolkit
-            </div>
-            <div className="text-[11px] text-[var(--color-text-muted)] mt-0.5">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-3 flex items-center justify-between gap-4">
+        <Link
+          href="/"
+          className="flex items-center gap-3 group min-w-0"
+          aria-label="Sapiens Subscription Services Toolkit home"
+        >
+          <BrandLogo variant="header" />
+          <span className="hidden sm:flex flex-col leading-tight pl-3 border-l border-[var(--color-border)] min-w-0">
+            <span className="label-small text-[var(--color-primary)] uppercase tracking-[0.14em] text-[10px] font-semibold whitespace-nowrap">
+              Subscription Toolkit
+            </span>
+            <span className="text-[11px] text-[var(--color-text-muted)] mt-0.5 whitespace-nowrap">
               Internal sales enablement
-            </div>
-          </div>
+            </span>
+          </span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-7">
+        <nav className="hidden md:flex items-center gap-5 lg:gap-7 shrink-0">
           {NAV_ITEMS.map((item) => {
-            const isActive =
-              item.href === '/'
-                ? pathname === '/'
-                : pathname.startsWith(item.href);
+            const isActive = isActiveHref(pathname, item.href);
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 data-active={isActive}
-                className="nav-link"
+                className="nav-link whitespace-nowrap"
+                aria-current={isActive ? 'page' : undefined}
               >
                 {item.label}
               </Link>
@@ -50,15 +61,80 @@ export default function SiteHeader() {
           })}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-3">
-          <span className="label-eyebrow text-[var(--color-text-muted)]">
-            Internal · Sales Enablement
-          </span>
-          <Link href="/configurator" className="btn-primary">
-            Open Configurator
-          </Link>
+        <div className="hidden md:flex items-center gap-3 shrink-0">
+          {!onConfigurator ? (
+            <Link href="/configurator" className="btn-primary whitespace-nowrap">
+              Start configuring
+            </Link>
+          ) : (
+            <span className="label-eyebrow text-[var(--color-text-muted)] whitespace-nowrap">
+              Internal · Sales Enablement
+            </span>
+          )}
         </div>
+
+        <button
+          type="button"
+          className="icon-btn mobile-menu-btn md:!hidden"
+          aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={mobileOpen}
+          aria-controls="mobile-nav"
+          onClick={() => setMobileOpen((o) => !o)}
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            aria-hidden="true"
+          >
+            {mobileOpen ? (
+              <path
+                d="M5 5l10 10M15 5L5 15"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+              />
+            ) : (
+              <>
+                <path d="M3 6h14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                <path d="M3 10h14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                <path d="M3 14h14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+              </>
+            )}
+          </svg>
+        </button>
       </div>
+
+      {mobileOpen ? (
+        <div id="mobile-nav" className="mobile-nav md:!hidden">
+          <nav className="max-w-7xl mx-auto px-4 sm:px-6 py-2 flex flex-col">
+            {NAV_ITEMS.map((item) => {
+              const isActive = isActiveHref(pathname, item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="mobile-nav-link"
+                  data-active={isActive}
+                  aria-current={isActive ? 'page' : undefined}
+                  onClick={closeMobileNav}
+                >
+                  <span>{item.label}</span>
+                  <span aria-hidden="true" className="text-[var(--color-text-muted)] text-sm">
+                    →
+                  </span>
+                </Link>
+              );
+            })}
+            {!onConfigurator ? (
+              <Link href="/configurator" className="btn-primary mt-3 mb-3 w-full" onClick={closeMobileNav}>
+                Start configuring
+              </Link>
+            ) : null}
+          </nav>
+        </div>
+      ) : null}
     </header>
   );
 }

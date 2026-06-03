@@ -5,6 +5,7 @@ import {
   getPackageById,
   moduleBlocks,
 } from '@/lib/data';
+import HelpHint from '../components/HelpHint';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -26,21 +27,28 @@ const PATH_BLURB: Record<string, string> = {
 
 export default function CohortsPage() {
   return (
-    <div className="max-w-7xl mx-auto px-6 lg:px-10 py-12">
-      <div className="card-elevated brand-card p-8 mb-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-12">
+      <div className="card-elevated brand-card p-6 sm:p-8 mb-8 sm:mb-10">
         <div className="label-eyebrow mb-3">Cohort Mapping</div>
-        <h1 className="text-5xl font-light tracking-tight text-[var(--color-ink)] mb-4">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight text-[var(--color-ink)] mb-4">
           From customer cohort to recommended subscription path
         </h1>
-        <p className="text-[var(--color-text-muted)] max-w-3xl">
+        <p className="text-[var(--color-text-muted)] max-w-3xl text-sm sm:text-base">
           Five customer cohorts, five strategic plays. Each cohort has a
           recommended path, a portfolio lifecycle view (Future Platform /
           Maintain / End of Life) and a default package — a credible starting
           point that the team can tailor to the conversation.
         </p>
+        <div className="caveat mt-5 max-w-3xl">
+          <span>
+            <strong>Demo framing.</strong> Cohort buckets and recommended
+            paths are an internal point of view for the toolkit, not
+            externally published Sapiens segmentation.
+          </span>
+        </div>
       </div>
 
-      <div className="space-y-10">
+      <div className="space-y-8 sm:space-y-10">
         {cohorts.map((cohort, idx) => {
           const pkg = getPackageById(cohort.recommendedPackageId);
           const recommendedModules = cohort.recommendedModuleIds
@@ -62,14 +70,17 @@ export default function CohortsPage() {
             >
               <div className="grid lg:grid-cols-[2fr_1.4fr] divide-y lg:divide-y-0 lg:divide-x divide-[var(--color-border)]">
                 {/* Left: identity */}
-                <div className="p-8">
-                  <div className="flex items-center gap-3 mb-3">
+                <div className="p-6 sm:p-8">
+                  <div className="flex items-center gap-2 mb-3 flex-wrap">
                     <span className="label-eyebrow">Cohort 0{idx + 1}</span>
                     <span className="pill pill-future">
                       {cohort.recommendedPath}
                     </span>
+                    <HelpHint label={cohort.recommendedPath}>
+                      {PATH_BLURB[cohort.recommendedPath]}
+                    </HelpHint>
                   </div>
-                  <h2 className="text-3xl font-light tracking-tight text-[var(--color-ink)]">
+                  <h2 className="text-2xl sm:text-3xl font-light tracking-tight text-[var(--color-ink)] break-words">
                     {cohort.name}
                   </h2>
                   <p className="text-sm text-[var(--color-text-muted)] mt-2">
@@ -81,7 +92,7 @@ export default function CohortsPage() {
                       <dt className="label-small text-[var(--color-text-muted)]">
                         GWP range
                       </dt>
-                      <dd className="text-[var(--color-ink)] mono">
+                      <dd className="text-[var(--color-ink)] mono break-words">
                         {cohort.gwpRange}
                       </dd>
                     </div>
@@ -145,31 +156,40 @@ export default function CohortsPage() {
                 </div>
 
                 {/* Right: lifecycle map + recommended modules */}
-                <div className="p-8 bg-[var(--color-surface-mist)]">
-                  <div className="label-eyebrow mb-4">
-                    Portfolio lifecycle for this cohort
+                <div className="p-6 sm:p-8 bg-[var(--color-surface-mist)]">
+                  <div className="flex items-center mb-4">
+                    <span className="label-eyebrow">
+                      Portfolio lifecycle for this cohort
+                    </span>
+                    <HelpHint label="Portfolio lifecycle">
+                      Sapiens portfolio segmentation:{' '}
+                      <strong>Future Platform</strong> (sell-leading),{' '}
+                      <strong>Maintain</strong> (keep stable), and{' '}
+                      <strong>End of Life</strong> (sunset). Helps frame
+                      which conversations to lead with for this cohort.
+                    </HelpHint>
                   </div>
 
                   <div className="space-y-3">
                     <div className="flex gap-3 items-start">
-                      <span className="pill pill-future mt-0.5">
+                      <span className="pill pill-future mt-0.5 shrink-0">
                         Future Platform
                       </span>
-                      <span className="text-sm text-[var(--color-ink)] flex-1">
+                      <span className="text-sm text-[var(--color-ink)] flex-1 break-words">
                         {cohort.lifecycleMapping.futurePlatform}
                       </span>
                     </div>
                     <div className="flex gap-3 items-start">
-                      <span className="pill pill-maintain mt-0.5">
+                      <span className="pill pill-maintain mt-0.5 shrink-0">
                         Maintain
                       </span>
-                      <span className="text-sm text-[var(--color-ink)] flex-1">
+                      <span className="text-sm text-[var(--color-ink)] flex-1 break-words">
                         {cohort.lifecycleMapping.maintain}
                       </span>
                     </div>
                     <div className="flex gap-3 items-start">
-                      <span className="pill pill-eol mt-0.5">End of Life</span>
-                      <span className="text-sm text-[var(--color-ink)] flex-1">
+                      <span className="pill pill-eol mt-0.5 shrink-0">End of Life</span>
+                      <span className="text-sm text-[var(--color-ink)] flex-1 break-words">
                         {cohort.lifecycleMapping.endOfLife}
                       </span>
                     </div>
@@ -206,6 +226,24 @@ export default function CohortsPage() {
             </section>
           );
         })}
+      </div>
+
+      <div className="mt-10 sm:mt-12 card p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <div className="label-eyebrow">Next step</div>
+          <p className="text-sm text-[var(--color-ink)] mt-1">
+            Build a live configuration for any of these cohorts, or anchor on
+            the June 30 launch packages.
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-3">
+          <Link href="/packages" className="btn-ghost">
+            Launch packages →
+          </Link>
+          <Link href="/configurator" className="btn-primary">
+            Open the Configurator →
+          </Link>
+        </div>
       </div>
     </div>
   );

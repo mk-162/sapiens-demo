@@ -1,15 +1,21 @@
 import Image from 'next/image';
 
 type BrandLogoProps = {
-  variant?: 'full' | 'compact';
+  variant?: 'header' | 'compact' | 'hero';
   className?: string;
 };
 
+const VARIANT_WIDTH: Record<NonNullable<BrandLogoProps['variant']>, number> = {
+  header: 38,
+  compact: 42,
+  hero: 55,
+};
+
 export default function BrandLogo({
-  variant = 'full',
+  variant = 'header',
   className = '',
 }: BrandLogoProps) {
-  const width = variant === 'compact' ? 106 : 142;
+  const width = VARIANT_WIDTH[variant];
   const height = Math.round((width / 600) * 170);
 
   return (
@@ -18,7 +24,6 @@ export default function BrandLogo({
       alt="Sapiens"
       width={width}
       height={height}
-      priority={variant === 'full'}
       className={`sapiens-logo ${className}`}
     />
   );

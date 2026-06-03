@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import {
   benchmarkConfigs,
@@ -21,6 +21,7 @@ import {
 } from '@/lib/pricing';
 import type { ModuleBlockId } from '@/lib/types';
 import BrandLogo from '../components/BrandLogo';
+import HelpHint from '../components/HelpHint';
 
 const GWP_MIN = 30_000_000;
 const GWP_MAX = 5_000_000_000;
@@ -31,6 +32,24 @@ const FOUNDATIONAL_CORE_IDS = modules
   .map((m) => m.id);
 
 const DEFAULT_COHORT_ID = 'midmarket';
+
+const HOW_TO_STEPS = [
+  {
+    n: 1,
+    title: 'Pick a cohort',
+    body: 'Choose the customer profile you are pitching to. A starting GWP and recommended module set load automatically.',
+  },
+  {
+    n: 2,
+    title: 'Load a package or benchmark',
+    body: 'Apply Sapiens Horizon or Intelligent — or jump to a fully calibrated benchmark scenario.',
+  },
+  {
+    n: 3,
+    title: 'Tailor & quote',
+    body: 'Adjust GWP and toggle add-on modules. Watch ARR recalculate, then generate a quote preview to share.',
+  },
+];
 
 function uniq(ids: string[]): string[] {
   return Array.from(new Set(ids));
@@ -86,12 +105,22 @@ export default function ConfiguratorClient() {
     null,
   );
   const [quoteVisible, setQuoteVisible] = useState(false);
+  const [howToOpen, setHowToOpen] = useState(true);
+  const quotePreviewRef = useRef<HTMLDivElement | null>(null);
 
   const cohort = getCohortById(selectedCohortId);
   const pricing = useMemo(
     () => calculatePricing(selectedModuleIds, gwp),
     [selectedModuleIds, gwp],
   );
+
+  useEffect(() => {
+    if (!quoteVisible) return;
+    quotePreviewRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+    });
+  }, [quoteVisible]);
 
   const handleSelectCohort = (cohortId: string) => {
     const next = applyCohort(cohortId);
@@ -135,7 +164,12 @@ export default function ConfiguratorClient() {
   };
 
   const fitWarnings = useMemo(
-    () => buildFitWarnings(selectedModuleIds, selectedCohortId, activePresetPackageId),
+    () =>
+      buildFitWarnings(
+        selectedModuleIds,
+        selectedCohortId,
+        activePresetPackageId,
+      ),
     [selectedModuleIds, selectedCohortId, activePresetPackageId],
   );
 
@@ -149,24 +183,82 @@ export default function ConfiguratorClient() {
   }, [selectedModuleIds]);
 
   return (
-    <div className="max-w-7xl mx-auto px-6 lg:px-10 py-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-8 lg:py-10">
       {/* Header */}
-      <div className="card-elevated brand-card p-8 mb-8">
+      <div className="card-elevated brand-card p-6 sm:p-8 mb-6">
         <div className="label-eyebrow mb-3">Sales Configurator</div>
-        <h1 className="text-5xl font-light tracking-tight text-[var(--color-ink)] mb-3">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight text-[var(--color-ink)] mb-3">
           Configure a Sapiens subscription
         </h1>
-        <p className="text-[var(--color-text-muted)] max-w-3xl">
+        <p className="text-[var(--color-text-muted)] max-w-3xl text-sm sm:text-base">
           Start from a cohort or package preset, tailor the modular blocks and
           GWP, and watch first-year economics — base platform ARR, surcharges,
           managed cloud ops and professional services — recalculate live.
         </p>
+        <div className="caveat mt-5 max-w-3xl">
+          <span>
+            <strong>Demo only.</strong> Pricing, surcharges, F_scale and
+            package constructs are illustrative for stakeholder
+            conversations — they are not official Sapiens commercial terms.
+            See <code className="mono">docs/</code> for what is real vs
+            illustrative.
+          </span>
+        </div>
       </div>
 
+      {/* How to use this demo */}
+      <section className="card p-5 sm:p-6 mb-6">
+        <div className="flex items-start justify-between gap-3 mb-3">
+          <div>
+            <div className="label-eyebrow">How to use this demo</div>
+            <h2 className="text-lg font-semibold text-[var(--color-ink)] mt-1">
+              Three steps from cohort to quote
+            </h2>
+          </div>
+          <button
+            type="button"
+            onClick={() => setHowToOpen((o) => !o)}
+            className="text-xs text-[var(--color-primary)] underline-offset-2 hover:underline shrink-0"
+            aria-expanded={howToOpen}
+            aria-controls="how-to-steps"
+          >
+            {howToOpen ? 'Hide' : 'Show steps'}
+          </button>
+        </div>
+        {howToOpen ? (
+          <ol id="how-to-steps" className="grid gap-3 md:grid-cols-3">
+            {HOW_TO_STEPS.map((step) => (
+              <li key={step.n} className="step-card">
+                <span className="step-card-num" aria-hidden="true">
+                  {step.n}
+                </span>
+                <div>
+                  <div className="text-sm font-semibold text-[var(--color-ink)]">
+                    {step.title}
+                  </div>
+                  <p className="text-xs text-[var(--color-text-muted)] mt-1 leading-snug">
+                    {step.body}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        ) : null}
+      </section>
+
       {/* Presets row */}
-      <div className="grid lg:grid-cols-[1fr_1fr] gap-4 mb-6">
+      <div className="grid lg:grid-cols-2 gap-4 mb-6">
         <div className="card p-5">
-          <div className="label-eyebrow mb-3">Package preset</div>
+          <div className="flex items-center mb-3">
+            <span className="label-eyebrow">Package preset</span>
+            <HelpHint label="Package preset">
+              Loads one of the two June 30 launch packages — Sapiens{' '}
+              <strong>Horizon</strong> (Evergreen core) or Sapiens{' '}
+              <strong>Intelligent</strong> (Evergreen + Decision + Digital +
+              Data). Foundational Core modules stay on top of whatever you
+              pick.
+            </HelpHint>
+          </div>
           <div className="flex flex-wrap gap-2">
             {launchPackages.map((pkg) => (
               <button
@@ -189,7 +281,14 @@ export default function ConfiguratorClient() {
         </div>
 
         <div className="card p-5">
-          <div className="label-eyebrow mb-3">Benchmark configurations</div>
+          <div className="flex items-center mb-3">
+            <span className="label-eyebrow">Benchmark configurations</span>
+            <HelpHint label="Benchmark configurations">
+              Pre-calibrated <strong>example deals</strong> — cohort, package
+              and GWP all locked in. Use one to instantly show a credible
+              starting point in the room, then tailor from there.
+            </HelpHint>
+          </div>
           <div className="flex flex-wrap gap-2">
             {benchmarkConfigs.map((bench) => (
               <button
@@ -214,7 +313,15 @@ export default function ConfiguratorClient() {
         {/* Cohort + GWP column */}
         <div className="space-y-6">
           <div className="card p-5">
-            <div className="label-eyebrow mb-3">Customer cohort</div>
+            <div className="flex items-center mb-3">
+              <span className="label-eyebrow">Customer cohort</span>
+              <HelpHint label="Customer cohort">
+                The customer archetype you are selling to. Each cohort comes
+                with a default GWP, recommended module set and recommended
+                package — picking one resets the configurator to that
+                starting point.
+              </HelpHint>
+            </div>
             <div className="space-y-2">
               {cohorts.map((c) => (
                 <button
@@ -238,8 +345,16 @@ export default function ConfiguratorClient() {
           </div>
 
           <div className="card p-5">
-            <div className="flex items-center justify-between mb-3">
-              <div className="label-eyebrow">Gross Written Premium</div>
+            <div className="flex items-center justify-between mb-3 gap-3">
+              <div className="flex items-center">
+                <span className="label-eyebrow">Gross Written Premium</span>
+                <HelpHint label="Gross Written Premium (GWP)">
+                  Total annual premium the carrier writes. We use it as the{' '}
+                  <strong>scaling input</strong> for pricing: bigger book →
+                  bigger Sapiens footprint → higher base ARR. See F_scale
+                  below.
+                </HelpHint>
+              </div>
               <div className="mono text-lg font-medium text-[var(--color-ink)]">
                 {formatGWP(gwp)}
               </div>
@@ -250,6 +365,7 @@ export default function ConfiguratorClient() {
               max={GWP_MAX}
               step={GWP_STEP}
               value={gwp}
+              aria-label="Gross Written Premium"
               onChange={(e) => {
                 setGwp(Number(e.target.value));
                 setActiveBenchmarkId(null);
@@ -273,6 +389,7 @@ export default function ConfiguratorClient() {
                 max={GWP_MAX}
                 step={GWP_STEP}
                 value={gwp}
+                aria-label="Gross Written Premium (exact value)"
                 onChange={(e) => {
                   const next = Number(e.target.value);
                   if (Number.isFinite(next))
@@ -286,7 +403,15 @@ export default function ConfiguratorClient() {
           </div>
 
           <div className="card p-5">
-            <div className="label-eyebrow mb-2">F_scale formula</div>
+            <div className="flex items-center mb-2">
+              <span className="label-eyebrow">F_scale formula</span>
+              <HelpHint label="F_scale">
+                The <strong>illustrative</strong> multiplier that scales each
+                module&apos;s base ARR by GWP. Floor 1.0 under $10M GWP, cap
+                2.2 above ~$5B. Real Sapiens commercial terms are negotiated
+                deal-by-deal.
+              </HelpHint>
+            </div>
             <p className="text-xs text-[var(--color-text-muted)] leading-relaxed">
               Base ARR scales by{' '}
               <code className="mono text-[var(--color-ink)]">
@@ -311,8 +436,17 @@ export default function ConfiguratorClient() {
 
         {/* Module toggles column */}
         <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="label-eyebrow">Modular blocks</div>
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <div className="flex items-center">
+              <span className="label-eyebrow">Modular blocks</span>
+              <HelpHint label="Modular blocks">
+                Sapiens groups its subscription portfolio into five{' '}
+                <strong>building blocks</strong>: Foundational Core (always
+                on), Evergreen, Decision &amp; Intelligence, Digital &amp;
+                Data, and Premium AMS. Each block has its own surcharge
+                applied to base ARR.
+              </HelpHint>
+            </div>
             <div className="text-xs text-[var(--color-text-muted)]">
               {selectedModuleIds.length} of {modules.length} selected
             </div>
@@ -324,9 +458,9 @@ export default function ConfiguratorClient() {
               const blockModules = modules.filter((m) => m.block === block.id);
               return (
                 <div key={block.id} className="card p-4">
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      <div className="text-sm font-semibold text-[var(--color-ink)]">
+                  <div className="flex items-start justify-between gap-3 mb-3">
+                    <div className="min-w-0">
+                      <div className="text-sm font-semibold text-[var(--color-ink)] break-words">
                         {block.name}
                       </div>
                       <div className="text-[11px] text-[var(--color-text-muted)]">
@@ -334,7 +468,7 @@ export default function ConfiguratorClient() {
                       </div>
                     </div>
                     {block.required ? (
-                      <span className="pill pill-required">Required</span>
+                      <span className="pill pill-required shrink-0">Required</span>
                     ) : null}
                   </div>
                   <div className="space-y-1.5">
@@ -350,17 +484,18 @@ export default function ConfiguratorClient() {
                               : 'border-[var(--color-border)] hover:border-[var(--color-primary)]'
                           } ${isLocked ? 'opacity-90 cursor-not-allowed' : 'cursor-pointer'}`}
                         >
-                          <div className="flex items-start gap-2.5">
+                          <div className="flex items-start gap-2.5 min-w-0">
                             <input
                               type="checkbox"
                               className="mt-0.5 accent-[var(--color-primary)]"
                               checked={checked}
                               disabled={isLocked}
                               onChange={() => toggleModule(mod.id)}
+                              aria-label={mod.name}
                             />
-                            <div>
+                            <div className="min-w-0">
                               <div className="text-sm font-medium text-[var(--color-ink)] flex items-center gap-1.5 flex-wrap">
-                                {mod.name}
+                                <span className="break-words">{mod.name}</span>
                                 {mod.required ? (
                                   <span className="pill pill-required">
                                     Required
@@ -391,9 +526,18 @@ export default function ConfiguratorClient() {
 
         {/* Pricing / summary column */}
         <div className="space-y-4">
-          <div className="sticky top-24 space-y-4">
-            <div className="card-elevated p-6">
-              <div className="label-eyebrow mb-3">Pricing breakdown</div>
+          <div className="lg:sticky lg:top-24 space-y-4">
+            <div className="card-elevated p-5 sm:p-6">
+              <div className="flex items-center mb-3">
+                <span className="label-eyebrow">Pricing breakdown</span>
+                <HelpHint label="Pricing breakdown" align="end">
+                  All figures are <strong>illustrative</strong>. Base
+                  Platform ARR is the sum of selected non-AMS modules scaled
+                  by F_scale. Surcharges apply per block. Managed Cloud / AMS
+                  is shown separately. Pro services is a one-time Y1 number
+                  that also scales with F_scale.
+                </HelpHint>
+              </div>
               <div className="text-xs text-[var(--color-text-muted)] mb-4">
                 {cohort ? `${cohort.name} · ` : ''}
                 {formatGWP(gwp)} · F_scale ×{pricing.scaleFactor.toFixed(2)}
@@ -434,16 +578,49 @@ export default function ConfiguratorClient() {
 
               <button
                 onClick={() => setQuoteVisible(true)}
+                type="button"
                 className="btn-accent w-full mt-5"
+                aria-controls="quote-preview"
+                aria-expanded={quoteVisible}
               >
-                Generate Quote Preview
+                {quoteVisible ? 'Quote Preview Generated' : 'Generate Quote Preview'}
               </button>
+              <p className="text-[11px] text-[var(--color-text-muted)] mt-2 text-center">
+                Indicative pricing — not official Sapiens commercial terms.
+              </p>
             </div>
+
+            {quoteVisible ? (
+              <div ref={quotePreviewRef} className="scroll-mt-24" aria-live="polite">
+                <QuotePreview
+                  cohortName={cohort?.name ?? 'Unspecified cohort'}
+                  packageName={
+                    activePresetPackageId
+                      ? getPackageById(activePresetPackageId)?.name ?? null
+                      : null
+                  }
+                  gwp={gwp}
+                  pricing={pricing}
+                  selectedModuleIds={selectedModuleIds}
+                  selectedBlocks={selectedBlocks}
+                  onClose={() => setQuoteVisible(false)}
+                />
+              </div>
+            ) : null}
 
             {fitWarnings.length > 0 ? (
               <div className="card p-5">
-                <div className="label-eyebrow mb-3">
-                  Fit warnings &amp; recommendations
+                <div className="flex items-center mb-3">
+                  <span className="label-eyebrow">
+                    Fit warnings &amp; recommendations
+                  </span>
+                  <HelpHint label="Fit warnings" align="end">
+                    Heuristic checks that flag obvious cohort / module
+                    mismatches — e.g. legacy carriers without the Migration
+                    Bridge, MGAs missing digital/data, reinsurance without
+                    DataSuite. <strong>Demo logic</strong>, not a Sapiens
+                    deal-desk rule engine.
+                  </HelpHint>
                 </div>
                 <ul className="space-y-2.5">
                   {fitWarnings.map((w) => (
@@ -476,21 +653,6 @@ export default function ConfiguratorClient() {
               </div>
             )}
 
-            {quoteVisible ? (
-              <QuotePreview
-                cohortName={cohort?.name ?? 'Unspecified cohort'}
-                packageName={
-                  activePresetPackageId
-                    ? getPackageById(activePresetPackageId)?.name ?? null
-                    : null
-                }
-                gwp={gwp}
-                pricing={pricing}
-                selectedModuleIds={selectedModuleIds}
-                selectedBlocks={selectedBlocks}
-                onClose={() => setQuoteVisible(false)}
-              />
-            ) : null}
           </div>
         </div>
       </div>
@@ -513,7 +675,7 @@ function Row({
 }) {
   return (
     <div className="flex justify-between items-start gap-3">
-      <div>
+      <div className="min-w-0">
         <div
           className={`${emphasis ? 'font-medium text-[var(--color-ink)]' : 'text-[var(--color-text-muted)]'}`}
         >
@@ -526,7 +688,7 @@ function Row({
         ) : null}
       </div>
       <div
-        className={`mono ${
+        className={`mono shrink-0 ${
           primary
             ? 'text-xl font-medium text-[var(--color-primary)]'
             : emphasis
@@ -577,10 +739,10 @@ function QuotePreview({
     .filter(({ mods }) => mods.length > 0);
 
   return (
-    <div className="quote-preview card-elevated overflow-hidden border-2 border-[var(--color-primary)]">
-      <div className="quote-preview-header p-5">
-        <div className="flex items-start justify-between gap-4">
-          <div className="space-y-3">
+    <div id="quote-preview" className="quote-preview card-elevated overflow-hidden border-2 border-[var(--color-primary)]">
+      <div className="quote-preview-header p-4 sm:p-5">
+        <div className="flex items-start justify-between gap-3">
+          <div className="space-y-3 min-w-0">
             <BrandLogo variant="compact" />
             <div>
               <div className="label-eyebrow">Quote preview</div>
@@ -591,7 +753,7 @@ function QuotePreview({
           </div>
           <button
             onClick={onClose}
-            className="no-print text-xs text-[var(--color-text-muted)] hover:text-[var(--color-ink)]"
+            className="no-print text-xs text-[var(--color-text-muted)] hover:text-[var(--color-ink)] shrink-0"
             aria-label="Close quote preview"
           >
             ✕ Close
@@ -599,95 +761,96 @@ function QuotePreview({
         </div>
       </div>
 
-      <div className="p-6">
-
-      <div className="space-y-1 mb-4">
-        <div className="text-sm">
-          <span className="text-[var(--color-text-muted)]">Cohort: </span>
-          <span className="font-medium text-[var(--color-ink)]">
-            {cohortName}
-          </span>
-        </div>
-        {packageName ? (
-          <div className="text-sm">
-            <span className="text-[var(--color-text-muted)]">Package: </span>
+      <div className="p-5 sm:p-6">
+        <div className="space-y-1 mb-4">
+          <div className="text-sm break-words">
+            <span className="text-[var(--color-text-muted)]">Cohort: </span>
             <span className="font-medium text-[var(--color-ink)]">
-              {packageName}
+              {cohortName}
             </span>
           </div>
-        ) : null}
-        <div className="text-sm">
-          <span className="text-[var(--color-text-muted)]">GWP: </span>
-          <span className="mono text-[var(--color-ink)]">{formatGWP(gwp)}</span>
-        </div>
-        <div className="text-sm">
-          <span className="text-[var(--color-text-muted)]">
-            Blocks engaged:{' '}
-          </span>
-          <span className="text-[var(--color-ink)]">
-            {Array.from(selectedBlocks)
-              .map((id) => getBlockById(id)?.shortName)
-              .filter(Boolean)
-              .join(' · ')}
-          </span>
-        </div>
-      </div>
-
-      <div className="divider-soft my-3" />
-
-      <div className="space-y-3 mb-4">
-        {modulesByBlock.map(({ block, mods }) => (
-          <div key={block.id}>
-            <div className="text-[11px] uppercase tracking-wider font-semibold text-[var(--color-primary)] mb-1">
-              {block.shortName}
+          {packageName ? (
+            <div className="text-sm break-words">
+              <span className="text-[var(--color-text-muted)]">Package: </span>
+              <span className="font-medium text-[var(--color-ink)]">
+                {packageName}
+              </span>
             </div>
-            <ul className="text-xs space-y-0.5">
-              {mods.map((m) => {
-                const perMod = pricing.perModule.find((p) => p.id === m.id);
-                return (
-                  <li
-                    key={m.id}
-                    className="flex justify-between text-[var(--color-ink)]"
-                  >
-                    <span>{m.name}</span>
-                    <span className="mono text-[var(--color-text-muted)]">
-                      {perMod
-                        ? formatCurrency(perMod.scaled + perMod.surcharge)
-                        : ''}
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
+          ) : null}
+          <div className="text-sm">
+            <span className="text-[var(--color-text-muted)]">GWP: </span>
+            <span className="mono text-[var(--color-ink)]">
+              {formatGWP(gwp)}
+            </span>
           </div>
-        ))}
-      </div>
+          <div className="text-sm break-words">
+            <span className="text-[var(--color-text-muted)]">
+              Blocks engaged:{' '}
+            </span>
+            <span className="text-[var(--color-ink)]">
+              {Array.from(selectedBlocks)
+                .map((id) => getBlockById(id)?.shortName)
+                .filter(Boolean)
+                .join(' · ')}
+            </span>
+          </div>
+        </div>
 
-      <div className="divider-soft my-3" />
+        <div className="divider-soft my-3" />
 
-      <dl className="space-y-1.5 text-sm">
-        <Row
-          label="Annual recurring revenue"
-          value={formatCurrency(pricing.annualARR)}
-          emphasis
-        />
-        <Row
-          label="Professional services (Y1)"
-          value={formatCurrency(pricing.professionalServices)}
-        />
-        <Row
-          label="First-year total"
-          value={formatCurrency(pricing.firstYearTotal)}
-          emphasis
-          primary
-        />
-      </dl>
+        <div className="space-y-3 mb-4">
+          {modulesByBlock.map(({ block, mods }) => (
+            <div key={block.id}>
+              <div className="text-[11px] uppercase tracking-wider font-semibold text-[var(--color-primary)] mb-1">
+                {block.shortName}
+              </div>
+              <ul className="text-xs space-y-0.5">
+                {mods.map((m) => {
+                  const perMod = pricing.perModule.find((p) => p.id === m.id);
+                  return (
+                    <li
+                      key={m.id}
+                      className="flex justify-between gap-3 text-[var(--color-ink)]"
+                    >
+                      <span className="min-w-0 break-words">{m.name}</span>
+                      <span className="mono text-[var(--color-text-muted)] shrink-0">
+                        {perMod
+                          ? formatCurrency(perMod.scaled + perMod.surcharge)
+                          : ''}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ))}
+        </div>
 
-      <p className="text-[11px] text-[var(--color-text-muted)] mt-4 italic">
-        Indicative pricing for internal sales conversations. Final commercial
-        terms subject to Sapiens Finance approval and the June 30 launch
-        guardrails.
-      </p>
+        <div className="divider-soft my-3" />
+
+        <dl className="space-y-1.5 text-sm">
+          <Row
+            label="Annual recurring revenue"
+            value={formatCurrency(pricing.annualARR)}
+            emphasis
+          />
+          <Row
+            label="Professional services (Y1)"
+            value={formatCurrency(pricing.professionalServices)}
+          />
+          <Row
+            label="First-year total"
+            value={formatCurrency(pricing.firstYearTotal)}
+            emphasis
+            primary
+          />
+        </dl>
+
+        <p className="text-[11px] text-[var(--color-text-muted)] mt-4 italic">
+          Indicative pricing for internal sales conversations. Not official
+          Sapiens commercial terms — final pricing subject to Sapiens Finance
+          approval and the June 30 launch guardrails.
+        </p>
       </div>
     </div>
   );
