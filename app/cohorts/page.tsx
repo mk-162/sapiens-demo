@@ -33,10 +33,10 @@ export default function CohortsPage() {
           From customer cohort to recommended subscription path
         </h1>
         <p className="text-[var(--color-text-muted)] max-w-3xl">
-          Five customer cohorts, five strategic plays. Each cohort gets a
-          recommended path, a portfolio lifecycle view (Future / Maintain / End
-          of Life) and a default package the sales team can configure as a
-          starting point.
+          Five customer cohorts, five strategic plays. Each cohort has a
+          recommended path, a portfolio lifecycle view (Future Platform /
+          Maintain / End of Life) and a default package — a credible starting
+          point that the team can tailor to the conversation.
         </p>
       </div>
 

@@ -20,10 +20,11 @@ export default function PackagesPage() {
           Two packages, one Evergreen core
         </h1>
         <p className="text-[var(--color-text-muted)] max-w-3xl">
-          Both packages share the Foundational Core SaaS and Evergreen Platform
-          baseline. Sapiens Horizon is the modernisation play; Sapiens
-          Intelligent layers Decision, Digital and Data on top for cohorts that
-          can absorb the surcharge.
+          Both packages share the Foundational Core SaaS and Evergreen
+          Platform baseline. Sapiens Horizon is the modernisation path for
+          carriers that want a clean Evergreen core; Sapiens Intelligent
+          layers Decision, Digital and Data on top for cohorts ready to absorb
+          the surcharge and unlock AI-driven outcomes across the lifecycle.
         </p>
       </div>
 

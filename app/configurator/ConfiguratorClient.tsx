@@ -157,9 +157,9 @@ export default function ConfiguratorClient() {
           Configure a Sapiens subscription
         </h1>
         <p className="text-[var(--color-text-muted)] max-w-3xl">
-          Start from a cohort or package preset, tune the modular blocks and
-          GWP, and see the first-year economics — base platform ARR, surcharges,
-          managed cloud ops, professional services — recalculate live.
+          Start from a cohort or package preset, tailor the modular blocks and
+          GWP, and watch first-year economics — base platform ARR, surcharges,
+          managed cloud ops and professional services — recalculate live.
         </p>
       </div>
 

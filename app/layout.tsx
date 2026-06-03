@@ -6,7 +6,7 @@ import SiteFooter from './components/SiteFooter';
 export const metadata: Metadata = {
   title: 'Sapiens Subscription Services Toolkit',
   description:
-    'Internal sales enablement toolkit for the Sapiens subscription services catalog, cohort mapping and June 30 launch packages.',
+    'Internal sales enablement workspace for the Sapiens subscription portfolio — services catalog, cohort mapping and the June 30 Horizon & Intelligent launch packages.',
   icons: {
     icon: '/brand/sapiens-logo.png',
   },

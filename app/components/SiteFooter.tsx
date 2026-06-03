@@ -8,7 +8,7 @@ export default function SiteFooter() {
         <div className="flex items-center gap-4">
           <BrandLogo variant="compact" />
           <span className="pl-4 border-l border-[var(--color-border)]">
-            Subscription Services Toolkit · Internal sales enablement demo
+            Subscription Services Toolkit · Internal sales enablement workspace
           </span>
         </div>
         <div className="flex items-center gap-5">

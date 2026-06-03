@@ -11,21 +11,21 @@ const PILLARS = [
   {
     eyebrow: '01 · Catalog',
     title: 'Services Catalog',
-    body: 'Browse all SaaS, Evergreen, Decision, Digital and AMS modules grouped by the five Sapiens building blocks. Lifecycle status, target cohorts and pricing surcharges in one place.',
+    body: 'The full Sapiens subscription portfolio — SaaS, Evergreen, Decision, Digital and AMS — organised by the five building blocks. Lifecycle stance, target cohorts and pricing in one place.',
     href: '/modules',
     cta: 'Open catalog',
   },
   {
     eyebrow: '02 · Cohorts',
     title: 'Cohort Mapping',
-    body: 'See how the five customer cohorts map to recommended paths, lifecycle states and target packages. Strategic sales enablement — not just labels.',
+    body: 'Five customer cohorts mapped to recommended paths, lifecycle stance and target packages — so every conversation starts from a credible point of view.',
     href: '/cohorts',
     cta: 'Open cohort mapping',
   },
   {
     eyebrow: '03 · Toolkit',
     title: 'Sales Configurator',
-    body: 'Apply Horizon or Intelligent presets, toggle add-ons, slide GWP and see TCO, surcharges, AMS and pro services calculated live. Generate a quote preview for sales calls.',
+    body: 'Apply Horizon or Intelligent presets, tailor add-ons, scale by GWP and see ARR, surcharges, managed cloud ops and professional services recalculate live. Generate a quote preview in seconds.',
     href: '/configurator',
     cta: 'Open configurator',
   },
@@ -54,17 +54,18 @@ export default function Home() {
                 Sapiens Subscription Services Toolkit
               </div>
               <h1 className="text-[56px] lg:text-[68px] font-light text-[var(--color-ink)] leading-[1.02] tracking-tight">
-                A commercial toolkit for selling the
+                Advance the possible across
                 <br />
                 <span className="text-[var(--color-primary)]">
-                  Sapiens subscription portfolio
+                  the Sapiens subscription portfolio
                 </span>
                 .
               </h1>
               <p className="mt-6 text-lg text-[var(--color-text-muted)] max-w-2xl">
-                Catalog, cohort mapping and a credible sales configurator —
-                aligned to the June 30 Horizon &amp; Intelligent launch packages
-                and the Future Platform / Maintain / End-of-Life portfolio
+                One workspace for every commercial conversation — services
+                catalog, cohort strategy, June 30 Horizon &amp; Intelligent
+                launch packages, and a live configurator — all aligned to the
+                Future Platform, Maintain and End-of-Life portfolio
                 segmentation.
               </p>
 
@@ -155,15 +156,16 @@ export default function Home() {
       <section className="max-w-7xl mx-auto px-6 lg:px-10 py-16">
         <div className="flex items-end justify-between mb-10 gap-6 flex-wrap">
           <div>
-            <div className="label-eyebrow mb-3">What this toolkit does</div>
+            <div className="label-eyebrow mb-3">How the toolkit works</div>
             <h2 className="text-4xl font-light tracking-tight text-[var(--color-ink)]">
-              Three pillars for the sales conversation
+              Three pillars for every Sapiens conversation
             </h2>
           </div>
           <p className="text-[var(--color-text-muted)] max-w-md">
-            VP brief: build a services catalog, map services to customer
-            cohorts, and ship a credible commercial toolkit sales can use to
-            configure the right package.
+            Three connected views, one consistent story: catalog the portfolio,
+            map it to customer cohorts, and configure the right package in
+            minutes — with the operational detail to back the recommendation
+            up.
           </p>
         </div>
 

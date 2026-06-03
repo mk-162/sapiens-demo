@@ -22,12 +22,13 @@ export default function ModulesPage() {
       <div className="card-elevated brand-card p-8 mb-10">
         <div className="label-eyebrow mb-3">Services Catalog</div>
         <h1 className="text-5xl font-light tracking-tight text-[var(--color-ink)] mb-4">
-          Modular blocks across the Sapiens subscription portfolio
+          The building blocks behind every Sapiens subscription
         </h1>
         <p className="text-[var(--color-text-muted)] max-w-3xl">
-          Five building blocks anchor every subscription. The Foundational Core
-          SaaS block is non-negotiable for new customers — the remaining four
-          are add-ons priced as a surcharge on the base ARR.
+          Five modular blocks anchor every subscription. The Foundational Core
+          SaaS block is the non-negotiable base for new customers; the
+          remaining four layer on as add-ons, priced as a surcharge on base
+          ARR.
         </p>
       </div>
 
