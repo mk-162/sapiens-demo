@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import BrandLogo from './BrandLogo';
 
 export default function SiteFooter() {
@@ -12,7 +13,13 @@ export default function SiteFooter() {
           </span>
         </div>
         <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs">
-          <span>Pricing &amp; package constructs are indicative — see docs/.</span>
+          <span>
+            Pricing &amp; package constructs are indicative — see{' '}
+            <Link href="/docs" className="text-[var(--color-primary)] hover:text-[var(--color-accent)]">
+              Knowledge Base
+            </Link>
+            .
+          </span>
           <span className="hidden md:inline-block w-px h-3 bg-[var(--color-border-strong)]" />
           <span>Confidential</span>
         </div>

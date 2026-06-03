@@ -112,7 +112,12 @@ export default function Home() {
                   commercial constructs are{' '}
                   <em>indicative for stakeholder conversations</em>, not
                   official Sapiens commercial terms. See{' '}
-                  <code className="mono">docs/sapiens-terminology-audit.md</code>{' '}
+                  <Link
+                    href="/docs"
+                    className="font-medium text-[var(--color-primary)] underline-offset-2 hover:underline"
+                  >
+                    Knowledge Base
+                  </Link>{' '}
                   for what is real vs illustrative.
                 </span>
               </div>
@@ -192,6 +197,23 @@ export default function Home() {
                   </span>
                 </div>
               </div>
+
+              <div className="divider-soft my-6" />
+
+              <Link
+                href="/docs#pricing-maths"
+                className="block rounded-xl border border-[var(--color-border)] bg-white p-4 hover:border-[var(--color-primary)] transition-colors group"
+              >
+                <div className="label-small text-[var(--color-text-muted)] mb-2">
+                  Pricing formula
+                </div>
+                <code className="mono text-sm text-[var(--color-ink)] break-words">
+                  F_scale = 1 + 0.25 × log₁₀(GWP / $10M)
+                </code>
+                <div className="text-xs font-medium text-[var(--color-primary)] group-hover:text-[var(--color-accent)] mt-3">
+                  Explain the maths →
+                </div>
+              </Link>
             </div>
           </div>
         </div>

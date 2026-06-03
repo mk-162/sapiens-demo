@@ -8,7 +8,8 @@ If you are a non-technical reader, start at the top and read straight through.
 If you are technical and want the data model and build details, jump to
 `construction-summary.md`. If you want to know which terms are real Sapiens
 language vs. things we invented for demo purposes, jump to
-`sapiens-terminology-audit.md`.
+`sapiens-terminology-audit.md`. If the pricing formula is confusing, jump to
+`pricing-maths.md`.
 
 ---
 
@@ -148,4 +149,5 @@ A suggested 5-minute walkthrough. Adjust to your audience.
   component used across the toolkit.
 
 See `construction-summary.md` for the full data model and pricing
-formula.
+formula. See `pricing-maths.md` for a plain-English explanation of GWP,
+F_scale, surcharges, ARR and first-year total.

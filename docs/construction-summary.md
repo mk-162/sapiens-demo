@@ -117,7 +117,7 @@ These load a cohort, package, module set and GWP in one click.
 
 ## Pricing model
 
-Pricing lives in `lib/pricing.ts`.
+Pricing lives in `lib/pricing.ts`. For a non-technical walkthrough of the maths, see `pricing-maths.md` or the in-app Knowledge Base at `/docs#pricing-maths`.
 
 ### Scale factor
 

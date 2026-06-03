@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import {
   benchmarkConfigs,
   cohorts,
@@ -200,8 +201,14 @@ export default function ConfiguratorClient() {
             <strong>Demo only.</strong> Pricing, surcharges, F_scale and
             package constructs are illustrative for stakeholder
             conversations — they are not official Sapiens commercial terms.
-            See <code className="mono">docs/</code> for what is real vs
-            illustrative.
+            See{' '}
+            <Link
+              href="/docs"
+              className="font-medium text-[var(--color-primary)] underline-offset-2 hover:underline"
+            >
+              Knowledge Base
+            </Link>{' '}
+            for what is real vs illustrative.
           </span>
         </div>
       </div>
@@ -417,8 +424,14 @@ export default function ConfiguratorClient() {
               <code className="mono text-[var(--color-ink)]">
                 F = 1 + 0.25 · log₁₀(GWP / $10M)
               </code>
-              , clamped to [1.0, 2.2]. Below $10M GWP the floor of 1.0 holds;
-              above ~$5B GWP the cap of 2.2 kicks in.
+              , clamped to [1.0, 2.2].{' '}
+              <Link
+                href="/docs#pricing-maths"
+                className="font-medium text-[var(--color-primary)] underline-offset-2 hover:underline"
+              >
+                Explain the maths
+              </Link>
+              . Below $10M GWP the floor of 1.0 holds; above ~$5B GWP the cap of 2.2 kicks in.
             </p>
             <div className="mt-3 flex items-center justify-between">
               <span className="text-xs text-[var(--color-text-muted)]">
