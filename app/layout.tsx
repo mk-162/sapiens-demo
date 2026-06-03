@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import SiteHeader from './components/SiteHeader';
 import SiteFooter from './components/SiteFooter';
+import { DemoDataProvider } from '@/lib/demo-data-context';
 
 export const metadata: Metadata = {
   title: 'Sapiens Subscription Services Toolkit',
@@ -20,9 +21,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full antialiased">
       <body className="min-h-full flex flex-col">
-        <SiteHeader />
-        <main className="flex-1">{children}</main>
-        <SiteFooter />
+        <DemoDataProvider>
+          <SiteHeader />
+          <main className="flex-1">{children}</main>
+          <SiteFooter />
+        </DemoDataProvider>
       </body>
     </html>
   );

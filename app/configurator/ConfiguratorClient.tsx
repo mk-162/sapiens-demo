@@ -98,6 +98,8 @@ export default function ConfiguratorClient() {
   const [selectedCohortId, setSelectedCohortId] = useState(initialCohortId);
   const [selectedModuleIds, setSelectedModuleIds] =
     useState<string[]>(initialModuleIds);
+  const [baseSelectionModuleIds, setBaseSelectionModuleIds] =
+    useState<string[]>(initialModuleIds);
   const [gwp, setGwp] = useState<number>(initialState.gwp);
   const [activePresetPackageId, setActivePresetPackageId] = useState<
     string | null
@@ -127,6 +129,7 @@ export default function ConfiguratorClient() {
     const next = applyCohort(cohortId);
     setSelectedCohortId(cohortId);
     setSelectedModuleIds(next.selectedModuleIds);
+    setBaseSelectionModuleIds(next.selectedModuleIds);
     setGwp(next.gwp);
     const newCohort = getCohortById(cohortId);
     setActivePresetPackageId(newCohort?.recommendedPackageId ?? null);
@@ -135,7 +138,9 @@ export default function ConfiguratorClient() {
   };
 
   const handleApplyPackage = (packageId: string) => {
-    setSelectedModuleIds((current) => applyPackage(packageId, current));
+    const nextModuleIds = applyPackage(packageId, selectedModuleIds);
+    setSelectedModuleIds(nextModuleIds);
+    setBaseSelectionModuleIds(nextModuleIds);
     setActivePresetPackageId(packageId);
     setActiveBenchmarkId(null);
     setQuoteVisible(false);
@@ -145,9 +150,9 @@ export default function ConfiguratorClient() {
     const benchmark = benchmarkConfigs.find((b) => b.id === benchmarkId);
     if (!benchmark) return;
     setSelectedCohortId(benchmark.cohortId);
-    setSelectedModuleIds(
-      uniq([...FOUNDATIONAL_CORE_IDS, ...benchmark.moduleIds]),
-    );
+    const nextModuleIds = uniq([...FOUNDATIONAL_CORE_IDS, ...benchmark.moduleIds]);
+    setSelectedModuleIds(nextModuleIds);
+    setBaseSelectionModuleIds(nextModuleIds);
     setGwp(benchmark.gwp);
     setActivePresetPackageId(benchmark.packageId);
     setActiveBenchmarkId(benchmarkId);
@@ -182,6 +187,40 @@ export default function ConfiguratorClient() {
     }
     return set;
   }, [selectedModuleIds]);
+
+  const moduleLivePrices = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const priced of pricing.perModule) {
+      map.set(priced.id, priced.scaled + priced.surcharge);
+    }
+    for (const mod of modules) {
+      if (map.has(mod.id)) continue;
+      const scaled = mod.basePrice * pricing.scaleFactor;
+      const block = moduleBlocks.find((b) => b.id === mod.block);
+      const surchargePct = mod.surchargePercent ?? block?.surchargePercent ?? 0;
+      map.set(mod.id, Math.round(scaled * (1 + surchargePct)));
+    }
+    return map;
+  }, [pricing]);
+
+  const selectedExtraLineItems = useMemo(() => {
+    const baselineModuleIds = new Set(baseSelectionModuleIds);
+
+    return selectedModuleIds
+      .map((id) => getModuleById(id))
+      .filter((mod): mod is NonNullable<ReturnType<typeof getModuleById>> => {
+        if (!mod) return false;
+        return !mod.required && !baselineModuleIds.has(mod.id);
+      })
+      .map((mod) => {
+        const priced = pricing.perModule.find((p) => p.id === mod.id);
+        return {
+          id: mod.id,
+          name: mod.name,
+          amount: priced ? priced.scaled + priced.surcharge : 0,
+        };
+      });
+  }, [baseSelectionModuleIds, pricing.perModule, selectedModuleIds]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-8 lg:py-10">
@@ -525,8 +564,15 @@ export default function ConfiguratorClient() {
                               </div>
                             </div>
                           </div>
-                          <div className="text-right mono text-xs text-[var(--color-ink)] shrink-0">
-                            {formatCurrency(mod.basePrice)}
+                          <div className="text-right shrink-0">
+                            <div className="mono text-sm font-medium text-[var(--color-ink)]">
+                              {formatCurrency(
+                                moduleLivePrices.get(mod.id) ?? mod.basePrice,
+                              )}
+                            </div>
+                            <div className="mono text-[10px] text-[var(--color-text-muted)] mt-0.5">
+                              (base {formatCurrency(mod.basePrice)})
+                            </div>
                           </div>
                         </label>
                       );
@@ -569,6 +615,28 @@ export default function ConfiguratorClient() {
                   label="Managed cloud / AMS ops"
                   value={formatCurrency(pricing.cloudOpsARR)}
                 />
+                {selectedExtraLineItems.length > 0 ? (
+                  <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-3 space-y-2">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="text-xs font-semibold uppercase tracking-wider text-[var(--color-primary)]">
+                        Optional extras added
+                      </div>
+                      <div className="mono text-xs text-[var(--color-text-muted)]">
+                        {selectedExtraLineItems.length} item
+                        {selectedExtraLineItems.length === 1 ? '' : 's'}
+                      </div>
+                    </div>
+                    <div className="space-y-1.5">
+                      {selectedExtraLineItems.map((item) => (
+                        <Row
+                          key={item.id}
+                          label={item.name}
+                          value={formatCurrency(item.amount)}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
                 <div className="divider-soft my-2" />
                 <Row
                   label="Annual recurring revenue"

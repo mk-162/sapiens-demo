@@ -35,12 +35,9 @@ export default function SiteHeader() {
           aria-label="Sapiens Subscription Services Toolkit home"
         >
           <BrandLogo variant="header" />
-          <span className="hidden sm:flex flex-col leading-tight pl-3 border-l border-[var(--color-border)] min-w-0">
+          <span className="hidden sm:flex items-center leading-tight pl-3 border-l border-[var(--color-border)] min-w-0">
             <span className="label-small text-[var(--color-primary)] uppercase tracking-[0.14em] text-[10px] font-semibold whitespace-nowrap">
               Subscription Toolkit
-            </span>
-            <span className="text-[11px] text-[var(--color-text-muted)] mt-0.5 whitespace-nowrap">
-              Internal sales enablement
             </span>
           </span>
         </Link>
@@ -67,11 +64,27 @@ export default function SiteHeader() {
             <Link href="/configurator" className="btn-primary whitespace-nowrap">
               Start configuring
             </Link>
-          ) : (
-            <span className="label-eyebrow text-[var(--color-text-muted)] whitespace-nowrap">
-              Internal · Sales Enablement
-            </span>
-          )}
+          ) : null}
+          <Link
+            href="/settings"
+            aria-label="Settings"
+            className="text-[var(--color-text-muted)] hover:text-[var(--color-primary)] transition-colors inline-flex items-center justify-center p-1"
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="3" />
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.01a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.01a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.01a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+            </svg>
+          </Link>
         </div>
 
         <button

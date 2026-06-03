@@ -6,7 +6,7 @@ type BrandLogoProps = {
 };
 
 const VARIANT_WIDTH: Record<NonNullable<BrandLogoProps['variant']>, number> = {
-  header: 57,
+  header: 125,
   compact: 42,
   hero: 55,
 };

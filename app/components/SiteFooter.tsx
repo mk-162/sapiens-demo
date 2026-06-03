@@ -9,7 +9,7 @@ export default function SiteFooter() {
         <div className="flex items-center gap-3">
           <BrandLogo variant="compact" />
           <span className="pl-3 border-l border-[var(--color-border)]">
-            Subscription Toolkit · Internal sales enablement
+            Subscription Toolkit
           </span>
         </div>
         <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs">
