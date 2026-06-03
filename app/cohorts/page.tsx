@@ -27,7 +27,7 @@ const PATH_BLURB: Record<string, string> = {
 export default function CohortsPage() {
   return (
     <div className="max-w-7xl mx-auto px-6 lg:px-10 py-12">
-      <div className="mb-10">
+      <div className="card-elevated brand-card p-8 mb-10">
         <div className="label-eyebrow mb-3">Cohort Mapping</div>
         <h1 className="text-5xl font-light tracking-tight text-[var(--color-ink)] mb-4">
           From customer cohort to recommended subscription path

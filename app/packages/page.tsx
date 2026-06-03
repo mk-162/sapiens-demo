@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function PackagesPage() {
   return (
     <div className="max-w-7xl mx-auto px-6 lg:px-10 py-12">
-      <div className="mb-10">
+      <div className="card-elevated brand-card p-8 mb-10">
         <div className="label-eyebrow mb-3">June 30 launch</div>
         <h1 className="text-5xl font-light tracking-tight text-[var(--color-ink)] mb-4">
           Two packages, one Evergreen core

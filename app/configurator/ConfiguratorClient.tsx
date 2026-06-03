@@ -20,6 +20,7 @@ import {
   formatGWP,
 } from '@/lib/pricing';
 import type { ModuleBlockId } from '@/lib/types';
+import BrandLogo from '../components/BrandLogo';
 
 const GWP_MIN = 30_000_000;
 const GWP_MAX = 5_000_000_000;
@@ -150,7 +151,7 @@ export default function ConfiguratorClient() {
   return (
     <div className="max-w-7xl mx-auto px-6 lg:px-10 py-10">
       {/* Header */}
-      <div className="mb-8">
+      <div className="card-elevated brand-card p-8 mb-8">
         <div className="label-eyebrow mb-3">Sales Configurator</div>
         <h1 className="text-5xl font-light tracking-tight text-[var(--color-ink)] mb-3">
           Configure a Sapiens subscription
@@ -576,22 +577,29 @@ function QuotePreview({
     .filter(({ mods }) => mods.length > 0);
 
   return (
-    <div className="card-elevated p-6 border-2 border-[var(--color-primary)]">
-      <div className="flex items-start justify-between mb-4">
-        <div>
-          <div className="label-eyebrow">Quote preview</div>
-          <div className="text-xs text-[var(--color-text-muted)] mt-1 mono">
-            {quoteId} · {today.toDateString()}
+    <div className="quote-preview card-elevated overflow-hidden border-2 border-[var(--color-primary)]">
+      <div className="quote-preview-header p-5">
+        <div className="flex items-start justify-between gap-4">
+          <div className="space-y-3">
+            <BrandLogo variant="compact" />
+            <div>
+              <div className="label-eyebrow">Quote preview</div>
+              <div className="text-xs text-[var(--color-text-muted)] mt-1 mono">
+                {quoteId} · {today.toDateString()}
+              </div>
+            </div>
           </div>
+          <button
+            onClick={onClose}
+            className="no-print text-xs text-[var(--color-text-muted)] hover:text-[var(--color-ink)]"
+            aria-label="Close quote preview"
+          >
+            ✕ Close
+          </button>
         </div>
-        <button
-          onClick={onClose}
-          className="text-xs text-[var(--color-text-muted)] hover:text-[var(--color-ink)]"
-          aria-label="Close quote preview"
-        >
-          ✕ Close
-        </button>
       </div>
+
+      <div className="p-6">
 
       <div className="space-y-1 mb-4">
         <div className="text-sm">
@@ -680,6 +688,7 @@ function QuotePreview({
         terms subject to Sapiens Finance approval and the June 30 launch
         guardrails.
       </p>
+      </div>
     </div>
   );
 }

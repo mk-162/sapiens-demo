@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: 'Sapiens Subscription Services Toolkit',
   description:
     'Internal sales enablement toolkit for the Sapiens subscription services catalog, cohort mapping and June 30 launch packages.',
+  icons: {
+    icon: '/brand/sapiens-logo.png',
+  },
 };
 
 export default function RootLayout({

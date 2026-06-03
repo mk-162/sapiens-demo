@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import BrandLogo from './components/BrandLogo';
 import {
   cohorts,
   launchPackages,
@@ -43,11 +44,17 @@ export default function Home() {
         <div className="relative max-w-7xl mx-auto px-6 lg:px-10 pt-16 pb-20">
           <div className="grid lg:grid-cols-[1.4fr_1fr] gap-12 items-end">
             <div>
+              <div className="inline-flex items-center gap-4 rounded-full border border-[var(--color-border)] bg-white/85 px-4 py-2 mb-6 shadow-sm">
+                <BrandLogo variant="compact" />
+                <span className="label-small uppercase tracking-[0.16em] text-[10px] text-[var(--color-primary)] font-semibold">
+                  Internal toolkit
+                </span>
+              </div>
               <div className="label-eyebrow text-[var(--color-primary)] mb-5">
                 Sapiens Subscription Services Toolkit
               </div>
               <h1 className="text-[56px] lg:text-[68px] font-light text-[var(--color-ink)] leading-[1.02] tracking-tight">
-                A meaty toolkit for selling the
+                A commercial toolkit for selling the
                 <br />
                 <span className="text-[var(--color-primary)]">
                   Sapiens subscription portfolio
@@ -74,7 +81,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="card-elevated p-6">
+            <div className="card-elevated brand-card p-6">
               <div className="label-eyebrow mb-4">Portfolio at a glance</div>
               <dl className="grid grid-cols-2 gap-y-5 gap-x-6">
                 <div>
@@ -155,7 +162,7 @@ export default function Home() {
           </div>
           <p className="text-[var(--color-text-muted)] max-w-md">
             VP brief: build a services catalog, map services to customer
-            cohorts, and ship a simple-but-meaty toolkit sales can use to
+            cohorts, and ship a credible commercial toolkit sales can use to
             configure the right package.
           </p>
         </div>

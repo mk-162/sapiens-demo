@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import BrandLogo from './BrandLogo';
 
 const NAV_ITEMS = [
   { href: '/', label: 'Dashboard' },
@@ -15,18 +16,17 @@ export default function SiteHeader() {
   const pathname = usePathname();
 
   return (
-    <header className="border-b border-[var(--color-border)] bg-white sticky top-0 z-30 backdrop-blur supports-[backdrop-filter]:bg-white/85">
+    <header className="border-b border-[var(--color-border)] bg-white sticky top-0 z-30 backdrop-blur supports-[backdrop-filter]:bg-white/90 shadow-[0_1px_0_rgba(5,14,49,0.04)]">
+      <div className="brand-topline" />
       <div className="max-w-7xl mx-auto px-6 lg:px-10 py-4 flex items-center justify-between gap-8">
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-9 h-9 rounded-md bg-[var(--color-primary)] text-white grid place-items-center font-display font-medium text-lg leading-none shadow-sm">
-            S
-          </div>
-          <div className="leading-tight">
-            <div className="font-semibold tracking-tight text-[15px] text-[var(--color-ink)]">
-              Sapiens
-            </div>
-            <div className="label-small text-[var(--color-text-muted)] uppercase tracking-[0.14em] text-[10px]">
+        <Link href="/" className="flex items-center gap-4 group" aria-label="Sapiens Subscription Services Toolkit home">
+          <BrandLogo />
+          <div className="hidden sm:block leading-tight pl-4 border-l border-[var(--color-border)]">
+            <div className="label-small text-[var(--color-primary)] uppercase tracking-[0.16em] text-[10px] font-semibold">
               Subscription Services Toolkit
+            </div>
+            <div className="text-[11px] text-[var(--color-text-muted)] mt-0.5">
+              Internal sales enablement
             </div>
           </div>
         </Link>
