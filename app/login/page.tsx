@@ -27,7 +27,7 @@ function LoginForm() {
       } else {
         setError('Incorrect password');
       }
-    } catch (err) {
+    } catch {
       setError('Something went wrong');
     } finally {
       setLoading(false);

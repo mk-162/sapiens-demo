@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import SiteHeader from './components/SiteHeader';
 import SiteFooter from './components/SiteFooter';
+import DealAdvisor from './components/DealAdvisor';
 import { DemoDataProvider } from '@/lib/demo-data-context';
 
 export const metadata: Metadata = {
@@ -24,6 +25,7 @@ export default function RootLayout({
         <DemoDataProvider>
           <SiteHeader />
           <main className="flex-1">{children}</main>
+          <DealAdvisor />
           <SiteFooter />
         </DemoDataProvider>
       </body>

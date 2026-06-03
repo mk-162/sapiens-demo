@@ -18,14 +18,15 @@ export default function PackagesPage() {
       <div className="card-elevated brand-card p-6 sm:p-8 mb-8 sm:mb-10">
         <div className="label-eyebrow mb-3">June 30 launch</div>
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight text-[var(--color-ink)] mb-4">
-          Two packages, one Evergreen core
+          Two launch packages, shared subscription foundations
         </h1>
         <p className="text-[var(--color-text-muted)] max-w-3xl text-sm sm:text-base">
-          Both packages share the Foundational Core SaaS and Evergreen
-          Platform baseline. Sapiens Horizon is the modernisation path for
-          carriers that want a clean Evergreen core; Sapiens Intelligent
-          layers Decision, Digital and Data on top for cohorts ready to absorb
-          the surcharge and unlock AI-driven outcomes across the lifecycle.
+          Both packages start with the same core SaaS operating model:
+          hosting, security, environments, service desk and managed release
+          continuity. Sapiens Horizon keeps the focus on modernisation and
+          platform stability; Sapiens Intelligent adds Decision, Digital and
+          Data capabilities for cohorts ready to absorb a broader package and
+          pursue AI-enabled outcomes across the lifecycle.
         </p>
         <div className="caveat mt-5 max-w-3xl">
           <span>

@@ -222,6 +222,85 @@ export default function ConfiguratorClient() {
       });
   }, [baseSelectionModuleIds, pricing.perModule, selectedModuleIds]);
 
+  const currentDealContext = useMemo(() => {
+    const selectedModules = selectedModuleIds
+      .map((id) => getModuleById(id))
+      .filter((mod): mod is NonNullable<ReturnType<typeof getModuleById>> =>
+        Boolean(mod),
+      )
+      .map((mod) => {
+        const priced = pricing.perModule.find((item) => item.id === mod.id);
+
+        return {
+          id: mod.id,
+          name: mod.name,
+          block: getBlockById(mod.block)?.shortName ?? mod.block,
+          type: mod.type,
+          lifecycle: mod.lifecycle,
+          description: mod.description,
+          targetCohorts: mod.targetCohorts,
+          livePrice: priced ? priced.scaled + priced.surcharge : mod.basePrice,
+        };
+      });
+
+    const activePackage = activePresetPackageId
+      ? getPackageById(activePresetPackageId)
+      : null;
+
+    return {
+      cohortId: selectedCohortId,
+      cohortName: cohort?.name ?? 'Unspecified cohort',
+      cohortTagline: cohort?.tagline,
+      cohortSalesRationale: cohort?.salesRationale,
+      packageId: activePackage?.id ?? null,
+      packageName: activePackage?.name ?? null,
+      gwp,
+      gwpFormatted: formatGWP(gwp),
+      selectedBlocks: Array.from(selectedBlocks)
+        .map((id) => getBlockById(id)?.shortName)
+        .filter(Boolean),
+      selectedModules,
+      pricing: {
+        scaleFactor: pricing.scaleFactor,
+        basePlatformARR: pricing.basePlatformARR,
+        surchargeARR: pricing.surchargeARR,
+        cloudOpsARR: pricing.cloudOpsARR,
+        annualARR: pricing.annualARR,
+        professionalServices: pricing.professionalServices,
+        firstYearTotal: pricing.firstYearTotal,
+        annualARRFormatted: formatCurrency(pricing.annualARR),
+        firstYearTotalFormatted: formatCurrency(pricing.firstYearTotal),
+      },
+      fitWarnings,
+      selectedExtras: selectedExtraLineItems,
+      caveat:
+        'Pricing, surcharges, F_scale and package constructs are illustrative for stakeholder conversations, not official Sapiens commercial terms.',
+    };
+  }, [
+    activePresetPackageId,
+    cohort,
+    fitWarnings,
+    gwp,
+    pricing,
+    selectedBlocks,
+    selectedCohortId,
+    selectedExtraLineItems,
+    selectedModuleIds,
+  ]);
+
+  useEffect(() => {
+    window.dispatchEvent(
+      new CustomEvent('deal-advisor:update', { detail: currentDealContext }),
+    );
+  }, [currentDealContext]);
+
+  const handleAnalyseWithAi = () => {
+    setQuoteVisible(true);
+    window.dispatchEvent(
+      new CustomEvent('deal-advisor:analyse', { detail: currentDealContext }),
+    );
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-8 lg:py-10">
       {/* Header */}
@@ -657,15 +736,24 @@ export default function ConfiguratorClient() {
                 />
               </dl>
 
-              <button
-                onClick={() => setQuoteVisible(true)}
-                type="button"
-                className="btn-accent w-full mt-5"
-                aria-controls="quote-preview"
-                aria-expanded={quoteVisible}
-              >
-                {quoteVisible ? 'Quote Preview Generated' : 'Generate Quote Preview'}
-              </button>
+              <div className="mt-5 grid gap-2 sm:grid-cols-2">
+                <button
+                  onClick={() => setQuoteVisible(true)}
+                  type="button"
+                  className="btn-accent w-full"
+                  aria-controls="quote-preview"
+                  aria-expanded={quoteVisible}
+                >
+                  {quoteVisible ? 'Quote Preview Generated' : 'Generate Quote Preview'}
+                </button>
+                <button
+                  onClick={handleAnalyseWithAi}
+                  type="button"
+                  className="btn-ghost w-full justify-center"
+                >
+                  Analyse with AI
+                </button>
+              </div>
               <p className="text-[11px] text-[var(--color-text-muted)] mt-2 text-center">
                 Indicative pricing — not official Sapiens commercial terms.
               </p>

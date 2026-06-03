@@ -305,7 +305,7 @@ export default function Home() {
             <div>
               <div className="label-eyebrow mb-3">June 30 launch</div>
               <h2 className="text-2xl sm:text-4xl font-light tracking-tight text-[var(--color-ink)]">
-                Two packages, one Evergreen core
+                Two launch packages, shared subscription foundations
               </h2>
             </div>
             <Link href="/packages" className="btn-ghost">
