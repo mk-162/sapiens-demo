@@ -16,6 +16,12 @@ const DOC_SECTIONS = [
     body: 'Purpose, audience, use case, outcome and suggested 5-minute stakeholder walkthrough.',
   },
   {
+    id: 'second-brain',
+    eyebrow: 'Sales intelligence',
+    title: 'Second Brain',
+    body: 'How niche client asks become reusable use-case intelligence, catalogue entries and proposal packs.',
+  },
+  {
     id: 'construction-summary',
     eyebrow: 'Build notes',
     title: 'Construction summary',
@@ -42,10 +48,11 @@ const DOC_SECTIONS = [
 ];
 
 const ROUTES = [
-  ['/', 'Landing dashboard. Sets the story, portfolio at a glance, three pillars and package strip.'],
+  ['/', 'Landing dashboard. Sets the story, portfolio at a glance, four pillars and package strip.'],
   ['/modules', 'Services catalog grouped by the five modular blocks, with base ARR anchors and target cohorts.'],
   ['/cohorts', 'Customer archetypes, recommended paths, lifecycle mapping and module sets.'],
   ['/packages', 'The two illustrative launch package propositions and included modules.'],
+  ['/brain', 'Second-brain sales intelligence: niche use-case catalogue, proposal pack generator and source-confidence guardrails.'],
   ['/configurator', 'Live configuration surface: cohort, package, benchmark, GWP, modules, warnings, quote and AI analysis.'],
   ['/settings', 'Session-only management UI for editing demo modules, blocks and cohort detail.'],
   ['/docs', 'This in-app knowledge base. No dependency on public GitHub docs.'],
@@ -135,6 +142,50 @@ export default function DocsPage() {
         </div>
       </section>
 
+      <section className="card-elevated p-6 sm:p-8 mb-8">
+        <div className="label-eyebrow mb-3">What the toolkit does</div>
+        <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-8 items-start">
+          <div>
+            <h2 className="text-2xl sm:text-4xl font-light tracking-tight text-[var(--color-ink)]">
+              Turns a customer profile into an indicative subscription proposal.
+            </h2>
+            <p className="text-[var(--color-text-muted)] mt-4 leading-relaxed">
+              The toolkit is a password-gated internal sales and product demo.
+              It helps stakeholders see how a Sapiens subscription model could
+              be packaged, configured, priced, explained and challenged in one
+              joined-up workspace.
+            </p>
+            <p className="text-[var(--color-text-muted)] mt-3 leading-relaxed">
+              It is built for stakeholder conversations, not live selling. The
+              value is speed and clarity: a presenter can move from buyer type
+              to package recommendation, module scope, indicative economics,
+              quote preview and AI-assisted deal read without jumping between
+              spreadsheets, slide decks and product notes.
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <InfoBlock
+              title="It helps presenters"
+              items={[
+                'Pick the insurer cohort they are discussing.',
+                'Load a recommended package or benchmark scenario.',
+                'Adjust GWP and module scope live in the room.',
+                'Show indicative ARR, services and first-year total.',
+              ]}
+            />
+            <InfoBlock
+              title="It helps stakeholders"
+              items={[
+                'Understand the proposed subscription structure.',
+                'See which assumptions are real, derived or illustrative.',
+                'Challenge the packaging and pricing model with context.',
+                'Use AI guidance to spot risk, upsell and talk-track options.',
+              ]}
+            />
+          </div>
+        </div>
+      </section>
+
       <section className="grid md:grid-cols-2 xl:grid-cols-5 gap-4 mb-8">
         {DOC_SECTIONS.map((doc) => (
           <a
@@ -212,6 +263,70 @@ export default function DocsPage() {
         </div>
       </section>
 
+      <section id="second-brain" className="card-elevated p-6 sm:p-8 mb-8 scroll-mt-24">
+        <div className="label-eyebrow mb-3">Second Brain</div>
+        <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-8 items-start">
+          <div>
+            <h2 className="text-2xl sm:text-4xl font-light tracking-tight text-[var(--color-ink)]">
+              A reusable intelligence layer for niche sales use cases.
+            </h2>
+            <p className="text-[var(--color-text-muted)] mt-4 leading-relaxed">
+              The client feedback exposed the real gap: sales teams will be asked for very specific proposal
+              content — a Finnish compliance check, a SaaS migration pathway, a SAS analytics migration angle —
+              before that content exists in the core catalogue. The Second Brain is the capture and generation
+              layer for those cases.
+            </p>
+            <p className="text-[var(--color-text-muted)] mt-3 leading-relaxed">
+              Each brain entry must include sales use, product fit, discovery questions, proposal angles, risk
+              notes and source-confidence labels. That structure lets the toolkit produce useful proposal packs
+              without pretending every niche claim is already validated Sapiens doctrine.
+            </p>
+            <Link href="/brain" className="btn-accent mt-5">
+              Open the Second Brain
+            </Link>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <InfoBlock
+              title="What gets stored"
+              items={[
+                'Exact client ask and region / product context.',
+                'Source confidence: grounded, illustrative or needs validation.',
+                'Discovery questions sales should ask before scoping.',
+                'Recommended Sapiens modules and proposal sections.',
+              ]}
+            />
+            <InfoBlock
+              title="What gets generated"
+              items={[
+                'Use-case catalogue entry.',
+                'Sales intelligence brief.',
+                'Proposal section outline.',
+                'Product-offer recommendation and validation guardrails.',
+              ]}
+            />
+            <InfoBlock
+              title="Current starter packs"
+              items={[
+                'Finland compliance check.',
+                'SaaS migration proposal starter.',
+                'SAS / actuarial analytics modernisation.',
+                'Reusable proposal-pack operating model.',
+              ]}
+            />
+            <InfoBlock
+              title="How it compounds"
+              items={[
+                'New niche asks become structured assets, not one-off notes.',
+                'Assets feed the proposal generator and Deal Advisor knowledge base.',
+                'Admin-configured cohort/package/module branches are sent to the AI as live sales context.',
+                'Validation gaps stay visible until product/legal confirms them.',
+                'Sales teams get faster without losing caveats.',
+              ]}
+            />
+          </div>
+        </div>
+      </section>
+
       <section id="construction-summary" className="card-elevated p-6 sm:p-8 mb-8 scroll-mt-24">
         <div className="label-eyebrow mb-3">Construction summary</div>
         <h2 className="text-2xl sm:text-4xl font-light tracking-tight text-[var(--color-ink)] mb-4">
@@ -235,15 +350,16 @@ export default function DocsPage() {
               items={[
                 'moduleBlocks: five commercial blocks, surcharges, required status and display order.',
                 'modules: selectable line items with base price, lifecycle, target cohorts and optional surcharge.',
-                'cohorts: buyer archetypes with GWP midpoint, recommended path, recommended package and rationale.',
-                'launchPackages: Horizon and Intelligent demo propositions with modules, timelines and guardrails.',
+                'cohorts: buyer archetypes with GWP midpoint, recommended path, recommended package and rationale. Cohorts can now be created, sorted, filtered and saved in browser storage from /brain.',
+                'launchPackages: Horizon and Intelligent demo propositions with modules, timelines and guardrails. Packages can be assigned to cohorts from /brain.',
+                'brainAssets/useCaseTemplates: niche sales intelligence packs for compliance, SaaS migration, SAS analytics and future proposal-specific use cases.',
                 'benchmarkConfigs: one-click scenarios that load cohort, package, module set and GWP.',
               ]}
             />
             <InfoBlock
               title="Current limitations"
               items={[
-                'No database or persistence; settings/cohort changes reset on refresh.',
+                'No server database yet; admin edits persist in browser local storage for the password-gated demo and can be reset to defaults.',
                 'No CRM, CPQ or finance integration.',
                 'No official pricing authority.',
                 'Public terminology research does not replace Sapiens internal product validation.',

@@ -1,4 +1,5 @@
 import { cohorts, launchPackages, moduleBlocks, modules } from '@/lib/data';
+import { brainAssets, useCaseTemplates } from '@/lib/sales-brain';
 import { formatCurrency, formatGWP } from '@/lib/pricing';
 
 export const AI_SYSTEM_PROMPT = `You are Sapiens Deal Advisor, an internal sales enablement assistant inside the Sapiens Subscription Services Toolkit.
@@ -58,7 +59,27 @@ export function buildKnowledgeBase(): string {
     )
     .join('\n');
 
-  return `PRODUCT KNOWLEDGE BASE\n\nBuilding blocks\n${blocks}\n\nModules\n${moduleLines}\n\nLaunch packages\n${packageLines}\n\nCustomer cohorts\n${cohortLines}\n\nPricing guidance\n- Pricing is indicative for internal stakeholder conversations, not official Sapiens commercial terms.\n- GWP scaling uses F_scale = 1 + 0.25 × log10(GWP / $10M), bounded between 1.0 and 2.2 in the demo.\n- First-year total = annual recurring revenue + indicative professional services.\n- Annual recurring revenue includes base platform ARR, block/module surcharges and Premium AMS / Cloud Ops where selected.\n- Strong deal feedback should explain whether the selected package fits the cohort, whether important modules are missing, and whether the package risks being too broad for the buyer maturity.`;
+  const brainLines = brainAssets
+    .map(
+      (asset) =>
+        `- ${asset.title} (${asset.category}, ${asset.region}): ${asset.summary} Sales use: ${asset.salesUse} Product fit: ${asset.productFit.join(
+          ', ',
+        )}. Discovery questions: ${asset.discoveryQuestions.join(' | ')}. Risks: ${asset.risks.join(
+          ' | ',
+        )}. Source confidence: ${asset.sources.map((source) => `${source.title} — ${source.confidence}`).join('; ')}.`,
+    )
+    .join('\n');
+
+  const templateLines = useCaseTemplates
+    .map(
+      (template) =>
+        `- ${template.title}: ${template.clientNeed} Recommended modules: ${template.recommendedModules.join(
+          ', ',
+        )}. Proposal sections: ${template.proposalSections.join(', ')}. Output promise: ${template.outputPromise}.`,
+    )
+    .join('\n');
+
+  return `PRODUCT KNOWLEDGE BASE\n\nBuilding blocks\n${blocks}\n\nModules\n${moduleLines}\n\nLaunch packages\n${packageLines}\n\nCustomer cohorts\n${cohortLines}\n\nSecond-brain sales intelligence\n${brainLines}\n\nUse-case templates\n${templateLines}\n\nPricing guidance\n- Pricing is indicative for internal stakeholder conversations, not official Sapiens commercial terms.\n- GWP scaling uses F_scale = 1 + 0.25 × log10(GWP / $10M), bounded between 1.0 and 2.2 in the demo.\n- First-year total = annual recurring revenue + indicative professional services.\n- Annual recurring revenue includes base platform ARR, block/module surcharges and Premium AMS / Cloud Ops where selected.\n- Strong deal feedback should explain whether the selected package fits the cohort, whether important modules are missing, and whether the package risks being too broad for the buyer maturity.`;
 }
 
 export function buildFallbackDealAdvice(dealContext?: unknown): string {

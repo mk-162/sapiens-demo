@@ -9,6 +9,7 @@ type ChatMessage = {
 type ChatRequest = {
   messages?: ChatMessage[];
   dealContext?: unknown;
+  adminContext?: unknown;
   mode?: 'chat' | 'deal-analysis';
 };
 
@@ -49,6 +50,14 @@ function buildUserContent(request: ChatRequest): string {
   return latestMessage ?? 'Help me understand this subscription toolkit.';
 }
 
+function buildAdminKnowledge(adminContext: unknown): string {
+  if (!adminContext || typeof adminContext !== 'object') return '';
+  const candidate = adminContext as Record<string, unknown>;
+  const snapshot = typeof candidate.knowledgeSnapshot === 'string' ? candidate.knowledgeSnapshot : '';
+  const payload = JSON.stringify(candidate, null, 2).slice(0, 12000);
+  return `\n\nLIVE ADMIN CONFIGURATION\n${snapshot}\n\nAdmin JSON snapshot for sales advice:\n${payload}`;
+}
+
 export async function POST(request: NextRequest) {
   let body: ChatRequest;
 
@@ -68,7 +77,7 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const system = `${AI_SYSTEM_PROMPT}\n\n${buildKnowledgeBase()}`;
+  const system = `${AI_SYSTEM_PROMPT}\n\n${buildKnowledgeBase()}${buildAdminKnowledge(body.adminContext)}`;
   const userContent = buildUserContent(body);
   const anthropicMessages =
     body.mode === 'deal-analysis'

@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useDemoData } from '@/lib/demo-data-context';
 
 type ChatRole = 'user' | 'assistant';
 
@@ -26,6 +27,7 @@ const SUGGESTED_PROMPTS = [
 ];
 
 export default function DealAdvisor() {
+  const { cohorts, launchPackages, modules, knowledgeSnapshot } = useDemoData();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([WELCOME_MESSAGE]);
   const [input, setInput] = useState('');
@@ -65,6 +67,18 @@ export default function DealAdvisor() {
             messages: nextMessages,
             dealContext: context ?? dealContext,
             mode,
+            adminContext: {
+              knowledgeSnapshot,
+              cohorts,
+              launchPackages,
+              modules: modules.map((module) => ({
+                id: module.id,
+                name: module.name,
+                block: module.block,
+                lifecycle: module.lifecycle,
+                targetCohorts: module.targetCohorts,
+              })),
+            },
           }),
         });
 
@@ -98,7 +112,7 @@ export default function DealAdvisor() {
         setLoading(false);
       }
     },
-    [dealContext],
+    [dealContext, cohorts, knowledgeSnapshot, launchPackages, modules],
   );
 
   const sendMessage = useCallback(

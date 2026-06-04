@@ -10,6 +10,7 @@ const NAV_ITEMS = [
   { href: '/modules', label: 'Catalog' },
   { href: '/cohorts', label: 'Cohorts' },
   { href: '/packages', label: 'Packages' },
+  { href: '/brain', label: 'Second Brain' },
   { href: '/docs', label: 'Knowledge Base' },
 ];
 

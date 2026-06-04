@@ -24,7 +24,14 @@ const PILLARS = [
     cta: 'Open cohort mapping',
   },
   {
-    eyebrow: '03 · Toolkit',
+    eyebrow: '03 · Brain',
+    title: 'Second Brain',
+    body: 'Capture niche asks — Finland compliance, SaaS migration, SAS analytics modernisation — and turn them into reusable proposal intelligence for sales teams.',
+    href: '/brain',
+    cta: 'Open second brain',
+  },
+  {
+    eyebrow: '04 · Toolkit',
     title: 'Sales Configurator',
     body: 'Apply Horizon or Intelligent presets, tailor add-ons, scale by GWP and see ARR, surcharges, managed cloud ops and professional services recalculate live. Generate a quote preview in seconds.',
     href: '/configurator',
@@ -88,10 +95,10 @@ export default function Home() {
               </h1>
               <p className="mt-6 text-base sm:text-lg text-[var(--color-text-muted)] max-w-2xl">
                 One workspace for every commercial conversation — services
-                catalog, cohort strategy, June 30 Horizon &amp; Intelligent
-                launch packages, and a live configurator — all aligned to the
-                Future Platform, Maintain and End-of-Life portfolio
-                segmentation.
+                catalog, cohort strategy, second-brain use-case intelligence,
+                June 30 Horizon &amp; Intelligent launch packages, and a live
+                configurator — all aligned to the Future Platform, Maintain and
+                End-of-Life portfolio segmentation.
               </p>
 
               <div className="mt-8 flex flex-wrap items-center gap-3">

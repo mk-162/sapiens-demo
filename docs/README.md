@@ -4,6 +4,31 @@ This document is the operating manual for the **Sapiens Subscription Services
 Toolkit** demo. It explains what the demo is for, who it is aimed at, how to
 run it in front of a stakeholder, and where its boundaries are.
 
+## Executive summary: what the toolkit does
+
+The toolkit is a **password-gated internal sales/product demo** that shows how
+Sapiens could package subscription services into a clearer, repeatable sales
+conversation.
+
+In plain English, it lets a presenter:
+
+1. Pick the type of insurer they are talking about.
+2. Create or refine the cohort if the existing model does not fit.
+3. Assign the right proposed package and module set to that cohort.
+4. Capture niche use-case intelligence such as Finland compliance checks,
+   SaaS migration or SAS analytics modernisation.
+5. Adjust customer scale using GWP.
+6. Add or remove subscription modules.
+7. See indicative recurring revenue, implementation services and first-year
+   economics update live.
+8. Generate a quote-style preview for discussion.
+9. Ask the AI Deal Advisor to summarise the opportunity, flag risks, suggest
+   upsell angles and provide sales talking points using the live admin context.
+
+It is designed to make the proposed subscription model easy to understand in a
+stakeholder meeting. It is **not** an official pricing engine, CRM, CPQ system or
+customer-facing portal.
+
 If you are a non-technical reader, start at the top and read straight through.
 If you are technical and want the data model and build details, jump to
 `construction-summary.md`. If you want to know which terms are real Sapiens
@@ -20,18 +45,25 @@ seller (or sales-adjacent stakeholder) from "this is the customer" to
 "this is the configured Sapiens subscription with a credible price" in
 under five minutes.
 
-The toolkit demonstrates four things working together:
+The toolkit demonstrates five things working together:
 
 1. A **services catalog** organised around five modular blocks
    (Foundational Core, Evergreen, Decision & Intelligence, Digital & Data,
    Premium AMS).
 2. A **cohort mapping** view that proposes a recommended path and module
-   set for five common customer archetypes.
-3. The **June 30 launch packages** — Sapiens Horizon and Sapiens
+   set for common customer archetypes.
+3. A **Second Brain** operating page that lets the team create additional
+   cohorts, sort/filter them, assign proposed packages, map modules, and
+   capture niche sales-intelligence packs.
+4. The **June 30 launch packages** — Sapiens Horizon and Sapiens
    Intelligent — packaged on top of the modular blocks.
-4. A **live configurator** that lets the seller pick a cohort, load a
+5. A **live configurator** that lets the seller pick a cohort, load a
    package or benchmark, scale by GWP, toggle modules, see warnings and
    produce a quote preview.
+6. An **AI Deal Advisor** side drawer that receives both the static toolkit
+   data and the admin-configured cohort/package/module branches, then can
+   analyse the current deal, explain the package logic, flag risks and suggest
+   commercial talking points.
 
 The goal is *not* to ship a real CPQ tool. The goal is to make the
 subscription story easier to tell.
@@ -63,6 +95,8 @@ A typical session:
    underwriting?" in real time.
 6. They click **Generate quote preview** to produce a quote-shaped artefact
    they can screenshot or print.
+7. They click **Analyse with AI** to get a deal-read: strengths, risks,
+   potential add-ons and presenter talking points.
 
 Because the toolkit is opinionated, the seller never starts from a blank
 form — every interaction starts from a credible default.
@@ -78,15 +112,18 @@ After a 5-minute walkthrough, the stakeholder should:
 
 ## 5. How the flow works
 
-The demo has five routes:
+The demo has seven routes:
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Landing dashboard. Sets the story, shows portfolio at a glance, lists the three pillars and surfaces the two launch packages. |
+| `/` | Landing dashboard. Sets the story, shows portfolio at a glance, lists the four pillars and surfaces the two launch packages. |
 | `/modules` | Services catalog. The full module list grouped by the five blocks, with base ARR anchors and target cohorts. |
-| `/cohorts` | The five customer cohorts, each with a recommended path, lifecycle mapping and module set. |
+| `/cohorts` | Customer cohorts, each with a recommended path, lifecycle mapping and module set. |
 | `/packages` | The two June 30 launch packages — Horizon and Intelligent — with target cohorts, value props and included modules. |
-| `/configurator` | The live tool. Pick a cohort, load a package or benchmark, scale by GWP, toggle modules, see warnings, generate a quote. |
+| `/brain` | Second Brain. Admin operating page for creating cohorts, sorting/filtering, assigning packages/modules, generating niche use-case sales packs and exposing the live AI knowledge branch. |
+| `/configurator` | The live tool. Pick a cohort, load a package or benchmark, scale by GWP, toggle modules, see warnings, generate a quote and analyse the deal with AI. |
+| `/settings` | Editing surface for adjusting demo modules and blocks. Changes persist in browser storage for the demo. |
+| `/docs` | In-app knowledge base. Explains the demo, construction, terminology caveats, pricing maths and AI layer. |
 
 The header shows a single primary CTA ("Start configuring") that
 disappears when the user is already on `/configurator`, so there is no
@@ -111,6 +148,9 @@ A suggested 5-minute walkthrough. Adjust to your audience.
      would intervene.
    - Click **Generate quote preview**. Stop and let the audience read
      it.
+   - Click **Analyse with AI**. Explain that the advisor receives the current
+     cohort, package, selected modules, pricing breakdown and warnings, then
+     turns that context into deal guidance.
 3. **Hop to `/cohorts` (≈45s).** Use this to defend the recommended
    module set: every cohort has a recommended path, a lifecycle
    mapping and a `salesRationale` string.
@@ -128,12 +168,16 @@ A suggested 5-minute walkthrough. Adjust to your audience.
   Real Sapiens commercial terms are negotiated deal-by-deal.
 - **Cohort and package names are partly inventoried by us.** Horizon and
   Intelligent are demo packaging — see the terminology audit.
-- **No persistence.** Refresh the page and you lose configuration
-  state. Use a screenshot or the **Generate quote preview** print view
-  to capture a configuration.
-- **No external integrations.** There is no Salesforce, no Sapiens
-  Finance, no auth. The toolkit is read-only against a static
-  `lib/data.ts`.
+- **Browser persistence only.** Cohort, package-assignment and module edits are
+  saved to browser local storage for the password-gated demo. There is still no
+  server database, CRM or CPQ persistence layer.
+- **No external integrations.** There is no Salesforce or Sapiens Finance
+  integration. The admin-configured knowledge snapshot is passed into the AI
+  endpoint as context for sales advice.
+- **AI is optional.** Without `ANTHROPIC_API_KEY`, the Deal Advisor runs in
+  safe fallback mode. With the key configured server-side, it uses Anthropic to
+  generate richer responses from the embedded knowledge base and current deal
+  context.
 - **No accessibility audit yet.** Tooltips are keyboard accessible and
   use ARIA correctly, but a full WCAG pass has not been done.
 
@@ -141,6 +185,9 @@ A suggested 5-minute walkthrough. Adjust to your audience.
 
 - `app/page.tsx` — landing dashboard.
 - `app/configurator/ConfiguratorClient.tsx` — the live configurator.
+- `app/components/DealAdvisor.tsx` — the global AI side drawer.
+- `app/api/ai/chat/route.ts` — server-only Anthropic/fallback chat endpoint.
+- `lib/ai/knowledge.ts` — embedded AI knowledge and fallback deal-advice logic.
 - `app/cohorts/page.tsx`, `app/modules/page.tsx`, `app/packages/page.tsx`
   — the supporting views.
 - `lib/data.ts` — modules, cohorts, packages, benchmarks.

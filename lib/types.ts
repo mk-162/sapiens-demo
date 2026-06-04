@@ -1,11 +1,6 @@
 export type LifecycleStatus = 'Future Platform' | 'Maintain' | 'End of Life';
 
-export type ModuleBlockId =
-  | 'foundational-core'
-  | 'evergreen'
-  | 'decision-intelligence'
-  | 'digital-data'
-  | 'premium-ams';
+export type ModuleBlockId = string;
 
 export interface ModuleBlock {
   id: ModuleBlockId;
