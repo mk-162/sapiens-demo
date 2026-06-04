@@ -184,6 +184,15 @@ export default function BrainClient({ markdownAssets, markdownSnapshot }: Props)
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-8 sm:py-12">
+      <BreadcrumbTrail
+        items={[
+          { label: 'Toolkit', href: '/' },
+          { label: 'Second Brain', href: '/brain' },
+          { label: selectedAsset.category, href: '#library' },
+          { label: selectedAsset.title },
+        ]}
+      />
+
       <section className="card-elevated brand-card p-6 sm:p-8 mb-6 overflow-hidden relative">
         <div className="absolute inset-y-0 right-0 w-1/2 bg-[radial-gradient(circle_at_top_right,rgba(255,89,0,0.16),transparent_32rem)] pointer-events-none" />
         <div className="relative grid lg:grid-cols-[1.15fr_0.85fr] gap-8 items-end">
@@ -211,6 +220,17 @@ export default function BrainClient({ markdownAssets, markdownSnapshot }: Props)
       </section>
 
       <nav className="sticky top-0 z-30 mb-8 rounded-xl border border-[var(--color-border)] bg-white/95 p-3 shadow-sm backdrop-blur">
+        <div className="mb-3 border-b border-[var(--color-border)] pb-3">
+          <BreadcrumbTrail
+            compact
+            items={[
+              { label: 'Brain', href: '#overview' },
+              { label: selectedAsset.category, href: '#library' },
+              { label: selectedAsset.status.replace(/_/g, ' '), href: '#editor' },
+              { label: selectedAsset.title, href: '#relationships' },
+            ]}
+          />
+        </div>
         <div className="flex flex-wrap items-center gap-2">
           <span className="label-small font-semibold text-[var(--color-text-muted)] mr-2">Brain nav</span>
           {NAV.map(([href, label]) => (
@@ -408,6 +428,30 @@ function StatusPill({ status }: { status: BrainStatus }) {
   return <span className={`pill ${className} shrink-0`}>{status.replace(/_/g, ' ')}</span>;
 }
 
+function BreadcrumbTrail({ items, compact = false }: { items: { label: string; href?: string }[]; compact?: boolean }) {
+  return (
+    <nav aria-label="Breadcrumb" className={compact ? 'overflow-hidden' : 'mb-5'}>
+      <ol className={`flex items-center gap-2 ${compact ? 'text-[11px]' : 'text-xs'} text-[var(--color-text-muted)] whitespace-nowrap overflow-hidden`}>
+        {items.map((item, index) => {
+          const isLast = index === items.length - 1;
+          return (
+            <li key={`${item.label}-${index}`} className="flex min-w-0 items-center gap-2">
+              {index > 0 ? <span className="text-[var(--color-border-strong)]">/</span> : null}
+              {item.href && !isLast ? (
+                <a href={item.href} className="font-semibold text-[var(--color-primary)] hover:text-[var(--color-accent)]">
+                  {item.label}
+                </a>
+              ) : (
+                <span className={`truncate ${isLast ? 'font-semibold text-[var(--color-ink)]' : ''}`}>{item.label}</span>
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  );
+}
+
 function InfoCard({ title, items }: { title: string; items: string[] }) {
   return (
     <article className="card p-5">
@@ -422,6 +466,16 @@ function AssetDetail({ asset, modules, cohorts }: { asset: MarkdownBrainAsset; m
   const missingCohorts = asset.relatedCohorts.filter((name) => !cohorts.includes(name));
   return (
     <article className="card-elevated p-6 sm:p-7">
+      <BreadcrumbTrail
+        compact
+        items={[
+          { label: 'Asset library', href: '#library' },
+          { label: asset.category, href: '#library' },
+          { label: asset.region, href: '#relationships' },
+          { label: asset.title },
+        ]}
+      />
+      <div className="mt-4" />
       <div className="flex flex-wrap items-center gap-2 mb-4">
         <span className="pill pill-status">{asset.category}</span>
         <span className="pill pill-future">{asset.region}</span>
