@@ -95,6 +95,11 @@ export function DemoDataProvider({ children }: { children: ReactNode }) {
   const [data, setData] = useState<PersistedDemoData>(() => loadInitialData());
 
   useEffect(() => {
+    const timeout = window.setTimeout(() => setData(loadInitialData()), 0);
+    return () => window.clearTimeout(timeout);
+  }, []);
+
+  useEffect(() => {
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     } catch {

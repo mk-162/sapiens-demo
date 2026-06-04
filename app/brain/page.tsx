@@ -1,12 +1,16 @@
 import type { Metadata } from 'next';
 import BrainClient from './BrainClient';
+import { buildBrainSnapshot, getMarkdownBrainAssets } from '@/lib/brain-markdown';
 
 export const metadata: Metadata = {
   title: 'Second Brain · Sapiens Subscription Toolkit',
   description:
-    'Sales intelligence brain for niche Sapiens proposal use cases, catalogue assets and product-offer generation.',
+    'Git-backed sales intelligence brain for Sapiens proposal use cases, catalogue assets and product-offer generation.',
 };
 
 export default function BrainPage() {
-  return <BrainClient />;
+  const markdownAssets = getMarkdownBrainAssets();
+  const markdownSnapshot = buildBrainSnapshot(markdownAssets);
+
+  return <BrainClient markdownAssets={markdownAssets} markdownSnapshot={markdownSnapshot} />;
 }
