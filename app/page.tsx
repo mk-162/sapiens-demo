@@ -42,24 +42,31 @@ const PILLARS = [
 const FLOW_STEPS = [
   {
     n: 1,
-    title: 'Start in the Configurator',
-    body: 'Land on the live toolkit. Pick a cohort and watch a credible default load in.',
-    href: '/configurator',
-    cta: 'Open the Configurator',
+    title: 'Start in the Brain DB',
+    body: 'Open the visible command centre: sourced signals, validation status, source counts, product fit and AI context are all above the fold.',
+    href: '/brain',
+    cta: 'Open the Brain DB',
   },
   {
     n: 2,
-    title: 'Browse Cohorts & Catalog',
-    body: 'Need context? Review cohort plays and module-by-module detail before tailoring.',
+    title: 'Map cohorts and use cases',
+    body: 'Review the customer cohort plays and product-fit rationale so the recommendation can be explained in business language.',
     href: '/cohorts',
-    cta: 'See cohort plays',
+    cta: 'Open cohorts',
   },
   {
     n: 3,
-    title: 'Anchor on the Packages',
-    body: 'The two June 30 launch packages — Horizon and Intelligent — are the commercial spine.',
+    title: 'Compose the sales pack',
+    body: 'Use the configurator/composer to turn approved context into proposal sections, discovery questions and package recommendations.',
+    href: '/configurator',
+    cta: 'Open composer',
+  },
+  {
+    n: 4,
+    title: 'Defend with portfolio detail',
+    body: 'Use packages and module detail as the commercial spine when stakeholders ask why this Sapiens path fits.',
     href: '/packages',
-    cta: 'View packages',
+    cta: 'Open portfolio',
   },
 ];
 
@@ -235,12 +242,12 @@ export default function Home() {
             </h2>
           </div>
           <p className="text-sm text-[var(--color-text-muted)] max-w-md">
-            Built for a 5-minute stakeholder walk-through: open the
-            configurator first, then use catalog &amp; cohort views to defend
-            the choices.
+            Built for a 5-minute stakeholder walk-through: start with the
+            Brain DB operating workflow, map the need, compose the pack, then
+            defend the recommendation with portfolio detail.
           </p>
         </div>
-        <ol className="grid gap-3 md:grid-cols-3">
+        <ol className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
           {FLOW_STEPS.map((step) => (
             <li key={step.n} className="step-card">
               <span className="step-card-num" aria-hidden="true">
@@ -265,24 +272,23 @@ export default function Home() {
         </ol>
       </section>
 
-      {/* Three pillars */}
+      {/* Operating pillars */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12 sm:py-16">
         <div className="flex items-end justify-between mb-8 gap-6 flex-wrap">
           <div>
             <div className="label-eyebrow mb-3">How the toolkit works</div>
             <h2 className="text-2xl sm:text-4xl font-light tracking-tight text-[var(--color-ink)]">
-              Three pillars for every Sapiens conversation
+              Four connected workspaces for every Sapiens conversation
             </h2>
           </div>
           <p className="text-[var(--color-text-muted)] max-w-md text-sm sm:text-base">
-            Three connected views, one consistent story: catalog the portfolio,
-            map it to customer cohorts, and configure the right package in
-            minutes — with the operational detail to back the recommendation
-            up.
+            Research the intelligence, map it to customer cohorts, anchor it
+            in the product portfolio, and compose the right sales pack in
+            minutes — with visible governance behind every recommendation.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
           {PILLARS.map((p) => (
             <Link
               key={p.href}
