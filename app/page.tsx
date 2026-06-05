@@ -10,32 +10,32 @@ import {
 
 const PILLARS = [
   {
-    eyebrow: '01 · Catalog',
-    title: 'Services Catalog',
-    body: 'The full Sapiens subscription portfolio — SaaS, Evergreen, Decision, Digital and AMS — organised by the five building blocks. Lifecycle stance, target cohorts and pricing in one place.',
-    href: '/modules',
-    cta: 'Open catalog',
-  },
-  {
-    eyebrow: '02 · Cohorts',
-    title: 'Cohort Mapping',
-    body: 'Five customer cohorts mapped to recommended paths, lifecycle stance and target packages — so every conversation starts from a credible point of view.',
-    href: '/cohorts',
-    cta: 'Open cohort mapping',
-  },
-  {
-    eyebrow: '03 · Brain',
-    title: 'Second Brain',
-    body: 'Capture niche asks — Finland compliance, SaaS migration, SAS analytics modernisation — and turn them into reusable proposal intelligence for sales teams.',
+    eyebrow: '01 · Brain DB',
+    title: 'Research & validation board',
+    body: 'Sourced Sapiens product intelligence becomes governed brain assets with confidence, owner, validation status, product fit and source URLs visible to the user.',
     href: '/brain',
-    cta: 'Open second brain',
+    cta: 'Open Brain DB',
   },
   {
-    eyebrow: '04 · Toolkit',
-    title: 'Sales Configurator',
-    body: 'Apply Horizon or Intelligent presets, tailor add-ons, scale by GWP and see ARR, surcharges, managed cloud ops and professional services recalculate live. Generate a quote preview in seconds.',
+    eyebrow: '02 · Need mapper',
+    title: 'Cohort and use-case fit',
+    body: 'Customer cohorts are mapped to recommended paths, lifecycle stance, target packages and sales rationale so the workflow can explain why a recommendation fits.',
+    href: '/cohorts',
+    cta: 'Open need mapper',
+  },
+  {
+    eyebrow: '03 · Portfolio',
+    title: 'Product and package spine',
+    body: 'The Sapiens subscription portfolio, modules and launch packages remain the commercial spine that the brain maps against.',
+    href: '/packages',
+    cta: 'Open portfolio',
+  },
+  {
+    eyebrow: '04 · Composer',
+    title: 'Proposal and sales-pack generator',
+    body: 'Use validated intelligence to compose discovery questions, sales angles, proposal sections, risk guardrails and quote-ready package recommendations.',
     href: '/configurator',
-    cta: 'Open configurator',
+    cta: 'Open composer',
   },
 ];
 
@@ -83,33 +83,32 @@ export default function Home() {
                 </span>
               </div>
               <div className="label-eyebrow text-[var(--color-primary)] mb-5">
-                Sapiens Subscription Services Toolkit
+                Sapiens Platform Brain
               </div>
               <h1 className="text-[40px] sm:text-[56px] lg:text-[68px] font-light text-[var(--color-ink)] leading-[1.05] tracking-tight">
-                Advance the possible across
+                A visible operating system for
                 <br className="hidden sm:block" />{' '}
                 <span className="text-[var(--color-primary)]">
-                  the Sapiens subscription portfolio
+                  product-led sales advice
                 </span>
                 .
               </h1>
               <p className="mt-6 text-base sm:text-lg text-[var(--color-text-muted)] max-w-2xl">
-                One workspace for every commercial conversation — services
-                catalog, cohort strategy, second-brain use-case intelligence,
-                June 30 Horizon &amp; Intelligent launch packages, and a live
-                configurator — all aligned to the Future Platform, Maintain and
-                End-of-Life portfolio segmentation.
+                One command centre for researching Sapiens product intelligence,
+                validating sourced claims, mapping products to cohorts and use
+                cases, composing proposal packs, and injecting approved context
+                into the AI Deal Advisor.
               </p>
 
               <div className="mt-8 flex flex-wrap items-center gap-3">
-                <Link href="/configurator" className="btn-accent">
-                  Start here · Open the Configurator
+                <Link href="/brain" className="btn-accent">
+                  Start here · Open Brain DB
+                </Link>
+                <Link href="/configurator" className="btn-ghost">
+                  Compose a sales pack
                 </Link>
                 <Link href="/cohorts" className="btn-ghost">
-                  Review cohort strategy
-                </Link>
-                <Link href="/packages" className="btn-ghost">
-                  See June 30 packages
+                  Review need mapper
                 </Link>
               </div>
 

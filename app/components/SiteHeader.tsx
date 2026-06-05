@@ -7,10 +7,10 @@ import BrandLogo from './BrandLogo';
 
 const NAV_ITEMS = [
   { href: '/', label: 'Dashboard' },
-  { href: '/modules', label: 'Catalog' },
-  { href: '/cohorts', label: 'Cohorts' },
-  { href: '/packages', label: 'Packages' },
-  { href: '/brain', label: 'Second Brain' },
+  { href: '/cohorts', label: 'Need mapper' },
+  { href: '/packages', label: 'Portfolio' },
+  { href: '/configurator', label: 'Composer' },
+  { href: '/brain', label: 'Brain DB' },
   { href: '/docs', label: 'Knowledge Base' },
 ];
 
